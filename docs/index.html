@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang='fr'>
+  <head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta http-equiv='X-UA-Compatible' content='ie=edge' />
+    <title>Démonstrateur patrimoine</title>
+    <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css2?family=Lato:wght@300;700;900&display=swap' rel='stylesheet'>
+    <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css' media='screen,projection'>
+    <link rel='stylesheet' href='https://unpkg.com/leaflet@1.7.1/dist/leaflet.css'
+    integrity='sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=='
+    crossorigin=''/>
+    <script src='https://unpkg.com/leaflet@1.7.1/dist/leaflet.js'
+    integrity='sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=='
+    crossorigin=''></script>
+    <link rel='stylesheet' href='index.css' />
+    <script src='index.js'></script>
+  </head>
+
+  <body>
+    <div id='map' class='map'></div>
+
+    <script type='text/javascript'>
+
+      (function() {
+        // Save original method before overwriting it below.
+        const _setPosOriginal = L.Marker.prototype._setPos
+
+        L.Marker.addInitHook(function() {
+          const anchor = this.options.icon.options.iconAnchor
+          this.options.rotationOrigin = anchor ? `${anchor[0]}px ${anchor[1]}px` : 'center center'
+          // Ensure marker remains rotated during dragging.
+          this.on('drag', data => { this._rotate() })
+        })
+
+        L.Marker.include({
+          // _setPos is alled when update() is called, e.g. on setLatLng()
+          _setPos: function(pos) {
+            _setPosOriginal.call(this, pos)
+            if (this.options.rotation) this._rotate()
+          },
+          _rotate: function() {
+            this._icon.style[`${L.DomUtil.TRANSFORM}Origin`] = this.options.rotationOrigin
+            this._icon.style[L.DomUtil.TRANSFORM] += ` rotate(${this.options.rotation}deg)`
+          }
+        })
+      })()
+      const zoomLevel = 16;
+      const map = L.map('map').setView([45.780259, 4.892757], 12);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        minZoom: 1,
+        maxZoom: 20,
+      	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+      var data = {
+        'type': 'FeatureCollection',
+        'features': [
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [
+                4.89267,
+                45.780364
+              ]
+            },
+            'properties': {
+              'nom': 'Résidence Pranard',
+              'ville': 'Villeurbanne',
+              'cp' : 69100
+            }
+          }
+        ]
+      };
+
+
+      var datas = {
+        'type': 'FeatureCollection',
+        'features': [
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [
+                4.891909,
+                45.78049
+              ]
+            },
+            'properties': {
+              'HP1': '1',
+              'HP2': '1',
+              'HP3': '1',
+              'nom': 'Résidence Pranard',
+              'numero': '2',
+              'rue': 'rue de la Boube',
+              'ville': 'Villeurbanne',
+              'cp' : 69100
+            }
+          },
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [
+              4.89236,
+              45.780549
+              ]
+            },
+            'properties': {
+              'HP1': '1',
+              'HP2': '1',
+              'HP3': '2',
+              'nom': 'Résidence Pranard',
+              'numero': '4',
+              'rue': 'rue de la Boube',
+              'ville': 'Villeurbanne',
+              'cp' : 69100
+            }
+          },
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [
+              4.892808,
+              45.780609
+              ]
+            },
+            'properties': {
+              'HP1': '1',
+              'HP2': '1',
+              'HP3': '3',
+              'nom': 'Résidence Pranard',
+              'numero': '6',
+              'rue': 'rue de la Boube',
+              'ville': 'Villeurbanne',
+              'cp' : 69100
+            }
+          },
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [
+              4.893079,
+              45.780147
+              ]
+            },
+            'properties': {
+              'HP1': '1',
+              'HP2': '2',
+              'HP3': '1',
+              'nom': 'Résidence Pranard',
+              'numero': '41',
+              'rue': 'rue du 8 mai 1945',
+              'ville': 'Villeurbanne',
+              'cp' : 69100
+            }
+          },
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [
+              4.893621,
+              45.780209
+              ]
+            },
+            'properties': {
+              'HP1': '1',
+              'HP2': '2',
+              'HP3': '2',
+              'nom': 'Résidence Pranard',
+              'numero': '43',
+              'rue': 'rue du 8 mai 1945',
+              'ville': 'Villeurbanne',
+              'cp' : 69100
+            }
+          },
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [
+              4.893253,
+              45.780664
+              ]
+            },
+            'properties': {
+              'HP1': '1',
+              'HP2': '1',
+              'HP3': '4',
+              'nom': 'Résidence Pranard',
+              'numero': '8',
+              'rue': 'rue de la Boube',
+              'ville': 'Villeurbanne',
+              'cp' : 69100
+            }
+          }
+        ]
+      };
+
+      var markerIcon0 = L.divIcon({
+        className: 'markerStyle0',
+        popupAnchor: [6, -14],
+        iconSize: null,
+        html: ''
+      });
+      var markerIcon1 = L.divIcon({
+        className: 'markerStyle1',
+        popupAnchor: [2, -14],
+        iconSize: null,
+        html: ''
+      });
+
+      const layer0 = new L.geoJSON(data, {
+        pointToLayer: function (feature, latlng) {
+          return L.marker(latlng, {
+            icon: markerIcon0,
+            rotation: -45,
+            draggable: false
+          });
+        },
+        onEachFeature: function (f, l) {
+          l.bindPopup('<pre>'+JSON.stringify(f.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
+        }
+      }).addTo(map);
+
+      const layer = new L.geoJSON(datas, {
+        pointToLayer: function (feature, latlng) {
+          return L.marker(latlng, {
+            icon: markerIcon1,
+            rotation: -45,
+            draggable: false
+          });
+        },
+        onEachFeature: function (f, l) {
+          l.bindPopup('<pre>'+JSON.stringify(f.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
+        }
+      });//.addTo(map);
+
+      map.on('zoomend', function () {
+        if (map.getZoom() < zoomLevel && map.hasLayer(layer)) {
+            map.removeLayer(layer);
+            map.addLayer(layer0);
+        }
+        if (map.getZoom() > zoomLevel && map.hasLayer(layer) == false)
+        {
+            map.removeLayer(layer0);
+            map.addLayer(layer);
+        }
+      });
+
+      /*var popup = L.popup();
+      function onMapClick(e) {
+          popup
+              .setLatLng(e.latlng)
+              .setContent(e.latlng.toString())
+              .openOn(map);
+      }
+
+      map.on('click', onMapClick);*/
+
+    </script>
+  </body>
+</html>
