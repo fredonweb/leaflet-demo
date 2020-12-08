@@ -181,6 +181,7 @@
   };
 
   fetchRequest(url)
+    .then(response => response.json())
     .then(data => {
       data.features.forEach(data => {
         console.log(data);
@@ -190,16 +191,16 @@
           } else {
             markerStyle = 'markerStyle3'
           }*/
-          var marker = new L.marker(data.geometry.coordinates[0], data.geometry.coordinates[1], {
+          let marker = new L.marker(data.geometry.coordinates[0], data.geometry.coordinates[1], {
             icon: L.divIcon({
               className: 'markerStyle1',
               popupAnchor: [2, -14],
               iconSize: null,
               html: '',
             }),
-            rotation: -45,
-            draggable: true
-          }).bindPopup('<pre>'+JSON.stringify(data.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
+            //rotation: -45,
+            //draggable: true
+          });//.bindPopup('<pre>'+JSON.stringify(data.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
         //},
         //onEachFeature: onEachFeature
         //if (data.properties.HP2 == undefined) {
