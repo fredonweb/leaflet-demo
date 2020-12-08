@@ -24,9 +24,10 @@
 
   // Set map, layers and markers
   const zoomLevel = 16;
-  const HP1 = new L.LayerGroup();
-  const HP3 = new L.LayerGroup();
-  const url = 'datas.json';
+  var hp1 = new L.layerGroup;
+  const hp3 = new L.LayerGroup();
+  //const url = 'datas.json';
+  const url = 'https://fredonweb.github.io/leaflet-demo/datas.json';
   const map = L.map('map').setView([45.780364, 4.89267], 12);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -35,187 +36,201 @@
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
-  var datas = {
-    'type': 'FeatureCollection',
-    'features': [
-      {
-        'type': 'Feature',
-        'geometry': {
-          'type': 'Point',
-          'coordinates': [
-            4.89267,
-            45.780364
-          ]
-        },
-        'properties': {
-          'nom': 'Résidence Pranard',
-          'logements': 80
-        }
-      },
-      {
-        'type': 'Feature',
-        'geometry': {
-          'type': 'Point',
-          'coordinates': [
-            4.891909,
-            45.78049
-          ]
-        },
-        'properties': {
-          'HP1': '1',
-          'HP2': '1',
-          'HP3': '1',
-          'nom': 'Résidence Pranard',
-          'logements': 12,
-          'numero': '2',
-          'rue': 'rue de la Boube',
-          'ville': 'Villeurbanne',
-          'cp' : 69100
-        }
-      },
-      {
-        'type': 'Feature',
-        'geometry': {
-          'type': 'Point',
-          'coordinates': [
-          4.89236,
-          45.780549
-          ]
-        },
-        'properties': {
-          'HP1': '1',
-          'HP2': '1',
-          'HP3': '2',
-          'nom': 'Résidence Pranard',
-          'logements': 12,
-          'numero': '4',
-          'rue': 'rue de la Boube',
-          'ville': 'Villeurbanne',
-          'cp' : 69100
-        }
-      },
-      {
-        'type': 'Feature',
-        'geometry': {
-          'type': 'Point',
-          'coordinates': [
-          4.892808,
-          45.780609
-          ]
-        },
-        'properties': {
-          'HP1': '1',
-          'HP2': '1',
-          'HP3': '3',
-          'nom': 'Résidence Pranard',
-          'logements': 12,
-          'numero': '6',
-          'rue': 'rue de la Boube',
-          'ville': 'Villeurbanne',
-          'cp' : 69100
-        }
-      },
-      {
-        'type': 'Feature',
-        'geometry': {
-          'type': 'Point',
-          'coordinates': [
-          4.893079,
-          45.780147
-          ]
-        },
-        'properties': {
-          'HP1': '1',
-          'HP2': '2',
-          'HP3': '1',
-          'nom': 'Résidence Pranard',
-          'logements': 16,
-          'numero': '41',
-          'rue': 'rue du 8 mai 1945',
-          'ville': 'Villeurbanne',
-          'cp' : 69100
-        }
-      },
-      {
-        'type': 'Feature',
-        'geometry': {
-          'type': 'Point',
-          'coordinates': [
-          4.893621,
-          45.780209
-          ]
-        },
-        'properties': {
-          'HP1': '1',
-          'HP2': '2',
-          'HP3': '2',
-          'nom': 'Résidence Pranard',
-          'logements': 16,
-          'numero': '43',
-          'rue': 'rue du 8 mai 1945',
-          'ville': 'Villeurbanne',
-          'cp' : 69100
-        }
-      },
-      {
-        'type': 'Feature',
-        'geometry': {
-          'type': 'Point',
-          'coordinates': [
-          4.893253,
-          45.780664
-          ]
-        },
-        'properties': {
-          'HP1': '1',
-          'HP2': '1',
-          'HP3': '4',
-          'nom': 'Résidence Pranard',
-          'numero': '8',
-          'rue': 'rue de la Boube',
-          'ville': 'Villeurbanne',
-          'cp' : 69100
-        }
-      }
-    ]
-  };
-
   fetchRequest(url)
     .then(data => {
-      data.features.forEach(data => {
-        console.log(data);
-        //pointToLayer: function (feature, latlng) {
-          /*if (data.properties.HP2 == undefined) {
+      console.log(data.features);
+      new L.geoJSON(data.features, {
+
+
+      });
+
+      /*new L.geoJSON(data.features, {
+        pointToLayer: function (feature, latlng) {
+          if (feature.properties.HP2 == undefined) {
             var markerStyle = 'markerStyle1'
           } else {
             markerStyle = 'markerStyle3'
-          }*/
-          let marker = new L.marker(data.geometry.coordinates[0], data.geometry.coordinates[1], {
+          }
+          return L.marker(latlng, {
             icon: L.divIcon({
               className: 'markerStyle1',
               popupAnchor: [2, -14],
               iconSize: null,
               html: '',
             }),
+            rotation: -45,
+            draggable: true
+          });
+        },
+        onEachFeature: onEachFeature
+      });*/
 
-            //rotation: -45,
-            //draggable: true
-          });//.bindPopup('<pre>'+JSON.stringify(data.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
-        //},
-        //onEachFeature: onEachFeature
-        console.log('Marker ok');
-        //if (data.properties.HP2 == undefined) {
-          HP1.addLayer(marker);
-          console.log('Layer ok');
-        /*} else {
-          HP3.addLayer(marker);
-        }*/
-      })
+          /*if (data.properties.HP2 == undefined) {
+            var markerStyle = 'markerStyle1'
+          } else {
+            markerStyle = 'markerStyle3'
+          };
+          let marker = new L.marker(data.geometry.coordinates[0], data.geometry.coordinates[1], {
+            icon: L.divIcon({
+              className: markerStyle,
+              popupAnchor: [2, -14],
+              iconSize: null,
+              html: '',
+            }),
+            rotation: -45,
+            draggable: true
+          });
+          onEachFeature: onEachFeature*/
     })
     .catch(err => {
       console.log('> fetchRequest(), Error :', err);
     });
 
+
+    var datas = {
+      'type': 'FeatureCollection',
+      'features': [
+        {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [
+              4.89267,
+              45.780364
+            ]
+          },
+          'properties': {
+            'nom': 'Résidence Pranard',
+            'logements': 80
+          }
+        },
+        {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [
+              4.891909,
+              45.78049
+            ]
+          },
+          'properties': {
+            'HP1': '1',
+            'HP2': '1',
+            'HP3': '1',
+            'nom': 'Résidence Pranard',
+            'logements': 12,
+            'numero': '2',
+            'rue': 'rue de la Boube',
+            'ville': 'Villeurbanne',
+            'cp' : 69100
+          }
+        },
+        {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [
+            4.89236,
+            45.780549
+            ]
+          },
+          'properties': {
+            'HP1': '1',
+            'HP2': '1',
+            'HP3': '2',
+            'nom': 'Résidence Pranard',
+            'logements': 12,
+            'numero': '4',
+            'rue': 'rue de la Boube',
+            'ville': 'Villeurbanne',
+            'cp' : 69100
+          }
+        },
+        {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [
+            4.892808,
+            45.780609
+            ]
+          },
+          'properties': {
+            'HP1': '1',
+            'HP2': '1',
+            'HP3': '3',
+            'nom': 'Résidence Pranard',
+            'logements': 12,
+            'numero': '6',
+            'rue': 'rue de la Boube',
+            'ville': 'Villeurbanne',
+            'cp' : 69100
+          }
+        },
+        {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [
+            4.893079,
+            45.780147
+            ]
+          },
+          'properties': {
+            'HP1': '1',
+            'HP2': '2',
+            'HP3': '1',
+            'nom': 'Résidence Pranard',
+            'logements': 16,
+            'numero': '41',
+            'rue': 'rue du 8 mai 1945',
+            'ville': 'Villeurbanne',
+            'cp' : 69100
+          }
+        },
+        {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [
+            4.893621,
+            45.780209
+            ]
+          },
+          'properties': {
+            'HP1': '1',
+            'HP2': '2',
+            'HP3': '2',
+            'nom': 'Résidence Pranard',
+            'logements': 16,
+            'numero': '43',
+            'rue': 'rue du 8 mai 1945',
+            'ville': 'Villeurbanne',
+            'cp' : 69100
+          }
+        },
+        {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [
+            4.893253,
+            45.780664
+            ]
+          },
+          'properties': {
+            'HP1': '1',
+            'HP2': '1',
+            'HP3': '4',
+            'nom': 'Résidence Pranard',
+            'numero': '8',
+            'rue': 'rue de la Boube',
+            'ville': 'Villeurbanne',
+            'cp' : 69100
+          }
+        }
+      ]
+    };
 
   new L.geoJSON(datas, {
     pointToLayer: function (feature, latlng) {
@@ -240,24 +255,24 @@
 
   function onEachFeature (feature, layer) {
     if (feature.properties.HP2 == undefined) {
-      HP1.addLayer(layer);
+      hp1.addLayer(layer);
     } else {
-      HP3.addLayer(layer);
+      hp3.addLayer(layer);
     }
     layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
   }
 
-  HP1.addTo(map);
+  hp1.addTo(map);
 
   // Show/Hide layer with zoom level
   map.on('zoomend', function () {
-    if (map.getZoom() < zoomLevel && map.hasLayer(HP3)) {
-        map.removeLayer(HP3);
-        map.addLayer(HP1);
+    if (map.getZoom() < zoomLevel && map.hasLayer(hp3)) {
+        map.removeLayer(hp3);
+        map.addLayer(hp1);
     }
-    if (map.getZoom() > zoomLevel && map.hasLayer(HP3) == false) {
-        map.removeLayer(HP1);
-        map.addLayer(HP3);
+    if (map.getZoom() > zoomLevel && map.hasLayer(hp3) == false) {
+        map.removeLayer(hp1);
+        map.addLayer(hp3);
     }
   });
 
@@ -271,6 +286,5 @@
 async function fetchRequest(url) {
   let response = await fetch(url);
   let data = await response.json();
-  console.log(data);
   return data;
 }
