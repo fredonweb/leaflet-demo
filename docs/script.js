@@ -181,7 +181,6 @@
   };
 
   fetchRequest(url)
-    .then(response => response.json())
     .then(data => {
       data.features.forEach(data => {
         console.log(data);
