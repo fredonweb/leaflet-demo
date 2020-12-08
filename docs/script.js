@@ -60,6 +60,7 @@
       });*/
 
       data.features.forEach(data => {
+        console.log(data.properties);
         if (data.properties.HP2 == undefined) {
           var markerStyle = 'markerStyle1';
         } else {
