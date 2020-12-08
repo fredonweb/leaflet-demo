@@ -182,11 +182,31 @@
 
   fetchRequest(url)
     .then(data => {
-      //data.features.forEach(data => {})
+      data.features.forEach(data => {
+        pointToLayer: function (feature, latlng) {
+          if (feature.properties.HP2 == undefined) {
+            var markerStyle = 'markerStyle1'
+          } else {
+            markerStyle = 'markerStyle3'
+          }
+          new L.marker(latlng, {
+            icon: L.divIcon({
+              className: markerStyle,
+              popupAnchor: [2, -14],
+              iconSize: null,
+              html: '',
+            }),
+            rotation: -45,
+            draggable: true
+          });
+        },
+        onEachFeature: onEachFeature
+      })
     })
     .catch(err => {
       console.log('> fetchRequest(), Error :', err);
     });
+
 
   new L.geoJSON(datas, {
     pointToLayer: function (feature, latlng) {
@@ -206,7 +226,7 @@
         draggable: true
       });
     },
-    onEachFeature: onEachFeature,
+    onEachFeature: onEachFeature
   });
 
   function onEachFeature (feature, layer) {
