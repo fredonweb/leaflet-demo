@@ -183,7 +183,7 @@
   fetchRequest(url)
     .then(data => {
       data.features.forEach(data => {
-        console.log(data.features)
+        console.log(data);
         //pointToLayer: function (feature, latlng) {
           if (data.properties.HP2 == undefined) {
             var markerStyle = 'markerStyle1'
