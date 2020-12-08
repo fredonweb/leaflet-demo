@@ -197,6 +197,7 @@
               iconSize: null,
               html: '',
             }),
+            console.log('Marker ok');
             //rotation: -45,
             //draggable: true
           });//.bindPopup('<pre>'+JSON.stringify(data.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
@@ -204,6 +205,7 @@
         //onEachFeature: onEachFeature
         //if (data.properties.HP2 == undefined) {
           HP1.addLayer(marker);
+          console.log('Layer ok');
         /*} else {
           HP3.addLayer(marker);
         }*/
@@ -268,5 +270,6 @@
 async function fetchRequest(url) {
   let response = await fetch(url);
   let data = await response.json()
+  console.log(data);
   return data;
 }
