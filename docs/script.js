@@ -65,7 +65,7 @@
         } else {
           markerStyle = 'markerStyle3';
         }
-        var marker = new L.marker([data.geometry.coordinates[0],data.geometry.coordinates[1]],{
+        var marker = new L.marker([data.geometry.coordinates[1],data.geometry.coordinates[0]],{
           icon: L.divIcon({
             className: markerStyle,
             popupAnchor: [2, -14],
