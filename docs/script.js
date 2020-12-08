@@ -183,13 +183,14 @@
   fetchRequest(url)
     .then(data => {
       data.features.forEach(data => {
+        console.log(data.features)
         //pointToLayer: function (feature, latlng) {
-          if (feature.properties.HP2 == undefined) {
+          if (data.properties.HP2 == undefined) {
             var markerStyle = 'markerStyle1'
           } else {
             markerStyle = 'markerStyle3'
           }
-          var marker = new L.marker(latlng, {
+          var marker = new L.marker(data.geometry.coordinates[0], data.geometry.coordinates[1], {
             icon: L.divIcon({
               className: markerStyle,
               popupAnchor: [2, -14],
@@ -198,13 +199,13 @@
             }),
             rotation: -45,
             draggable: true
-          }).bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
+          }).bindPopup('<pre>'+JSON.stringify(data.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
         //},
         //onEachFeature: onEachFeature
-        if (feature.properties.HP2 == undefined) {
-          HP1.addLayer(layer);
+        if (data.properties.HP2 == undefined) {
+          HP1.addLayer(marker);
         } else {
-          HP3.addLayer(layer);
+          HP3.addLayer(marker);
         }
       })
     })
