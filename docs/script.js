@@ -197,12 +197,13 @@
               iconSize: null,
               html: '',
             }),
-            console.log('Marker ok');
+
             //rotation: -45,
             //draggable: true
           });//.bindPopup('<pre>'+JSON.stringify(data.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
         //},
         //onEachFeature: onEachFeature
+        console.log('Marker ok');
         //if (data.properties.HP2 == undefined) {
           HP1.addLayer(marker);
           console.log('Layer ok');
