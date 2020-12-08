@@ -182,10 +182,9 @@
 
   fetchRequest(url)
     .then(data => {
-      data.features.forEach(data => {})
+      //data.features.forEach(data => {})
     })
     .catch(err => {
-      error();
       console.log('> fetchRequest(), Error :', err);
     });
 
