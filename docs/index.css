@@ -8,6 +8,20 @@ html, body {
   width: 100%;
   height: 100%;
 }
+h4 {
+  margin: .5rem;
+}
+h5 {
+  margin: 3.3rem 0 0 0;
+  font-size: 1.3em !important;
+}
+h4 span {
+  font-size: 1.5rem;
+}
+nav {
+  height: 80px;
+  line-height: 80px;
+}
 .markerStyle0 {
   width: 30px;
   height: 30px;
