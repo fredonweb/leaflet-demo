@@ -183,13 +183,13 @@
   fetchRequest(url)
     .then(data => {
       data.features.forEach(data => {
-        pointToLayer: function (feature, latlng) {
+        //pointToLayer: function (feature, latlng) {
           if (feature.properties.HP2 == undefined) {
             var markerStyle = 'markerStyle1'
           } else {
             markerStyle = 'markerStyle3'
           }
-          new L.marker(latlng, {
+          var marker = new L.marker(latlng, {
             icon: L.divIcon({
               className: markerStyle,
               popupAnchor: [2, -14],
@@ -198,9 +198,14 @@
             }),
             rotation: -45,
             draggable: true
-          });
-        },
-        onEachFeature: onEachFeature
+          }).bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
+        //},
+        //onEachFeature: onEachFeature
+        if (feature.properties.HP2 == undefined) {
+          HP1.addLayer(layer);
+        } else {
+          HP3.addLayer(layer);
+        }
       })
     })
     .catch(err => {
