@@ -185,11 +185,11 @@
       data.features.forEach(data => {
         console.log(data);
         //pointToLayer: function (feature, latlng) {
-          if (data.properties.HP2 == undefined) {
+          /*if (data.properties.HP2 == undefined) {
             var markerStyle = 'markerStyle1'
           } else {
             markerStyle = 'markerStyle3'
-          }
+          }*/
           var marker = new L.marker(data.geometry.coordinates[0], data.geometry.coordinates[1], {
             icon: L.divIcon({
               className: markerStyle,
@@ -202,11 +202,11 @@
           }).bindPopup('<pre>'+JSON.stringify(data.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
         //},
         //onEachFeature: onEachFeature
-        if (data.properties.HP2 == undefined) {
+        //if (data.properties.HP2 == undefined) {
           HP1.addLayer(marker);
-        } else {
+        /*} else {
           HP3.addLayer(marker);
-        }
+        }*/
       })
     })
     .catch(err => {
