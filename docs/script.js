@@ -21,11 +21,17 @@
       }
     })
   })()
+
+  // Set map, layers and markers
   const zoomLevel = 16;
+  const HP1 = new L.LayerGroup();
+  const HP3 = new L.LayerGroup();
+  const url = 'datas.json';
   const map = L.map('map').setView([45.780364, 4.89267], 12);
+
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     minZoom: 1,
-    maxZoom: 20,
+    maxZoom: 22,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
@@ -174,67 +180,68 @@
     ]
   };
 
-  var markerIcon0 = L.divIcon({
-    className: 'markerStyle0',
-    popupAnchor: [6, -14],
-    iconSize: null,
-    html: ''
-  });
-  var markerIcon1 = L.divIcon({
-    className: 'markerStyle1',
-    popupAnchor: [2, -14],
-    iconSize: null,
-    html: ''
-  });
+  fetchRequest(url)
+    .then(data => {
+      data.features.forEach(data => {})
+    })
+    .catch(err => {
+      error();
+      console.log('> fetchRequest(), Error :', err);
+    });
 
-  const layer0 = new L.geoJSON(datas, {
+  new L.geoJSON(datas, {
     pointToLayer: function (feature, latlng) {
       if (feature.properties.HP2 == undefined) {
-        return L.marker(latlng, {
-          icon: markerIcon0,
-          rotation: -45,
-          draggable: true
-        });
-      };
+        var markerStyle = 'markerStyle1'
+      } else {
+        markerStyle = 'markerStyle3'
+      }
+      return L.marker(latlng, {
+        icon: L.divIcon({
+          className: markerStyle,
+          popupAnchor: [2, -14],
+          iconSize: null,
+          html: '',
+        }),
+        rotation: -45,
+        draggable: true
+      });
     },
-    onEachFeature: function (f, l) {
-      l.bindPopup('<pre>'+JSON.stringify(f.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
-    }
-  }).addTo(map);
+    onEachFeature: onEachFeature,
+  });
 
-  const layer = new L.geoJSON(datas, {
-    pointToLayer: function (feature, latlng) {
-      if (feature.properties.HP2 !== undefined) {
-        return L.marker(latlng, {
-          icon: markerIcon1,
-          rotation: -45,
-          draggable: true
-        });
-      };
-    },
-    onEachFeature: function (f, l) {
-      l.bindPopup('<pre>'+JSON.stringify(f.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
+  function onEachFeature (feature, layer) {
+    if (feature.properties.HP2 == undefined) {
+      HP1.addLayer(layer);
+    } else {
+      HP3.addLayer(layer);
     }
-  });//.addTo(map);
+    layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
+  }
 
+  HP1.addTo(map);
+
+  // Show/Hide layer with zoom level
   map.on('zoomend', function () {
-    if (map.getZoom() < zoomLevel && map.hasLayer(layer)) {
-        map.removeLayer(layer);
-        map.addLayer(layer0);
+    if (map.getZoom() < zoomLevel && map.hasLayer(HP3)) {
+        map.removeLayer(HP3);
+        map.addLayer(HP1);
     }
-    if (map.getZoom() > zoomLevel && map.hasLayer(layer) == false)
-    {
-        map.removeLayer(layer0);
-        map.addLayer(layer);
+    if (map.getZoom() > zoomLevel && map.hasLayer(HP3) == false) {
+        map.removeLayer(HP1);
+        map.addLayer(HP3);
     }
   });
 
-  /*var popup = L.popup();
+  // Return latlng on map click
   function onMapClick(e) {
-      popup
-          .setLatLng(e.latlng)
-          .setContent(e.latlng.toString())
-          .openOn(map);
+    console.log(e.latlng.toString())
   }
+  map.on('click', onMapClick);
 
-  map.on('click', onMapClick);*/
+  // Fetch async function
+async function fetchRequest(url) {
+  let response = await fetch(url);
+  let data = await response.json()
+  return data;
+}

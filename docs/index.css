@@ -22,7 +22,7 @@ nav {
   height: 80px;
   line-height: 80px;
 }
-.markerStyle0 {
+.markerStyle1 {
   width: 30px;
   height: 30px;
   margin-top: -28px;
@@ -34,7 +34,7 @@ nav {
   -moz-box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
   box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
 }
-.markerStyle0:after {
+.markerStyle1:after {
   content: '';
   width: 20px;
   height: 20px;
@@ -49,7 +49,7 @@ nav {
   -webkit-box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
   box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
 }
-.markerStyle1 {
+.markerStyle3 {
   width: 22px;
   height: 22px;
   margin-top: -28px;
@@ -61,7 +61,7 @@ nav {
   -moz-box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
   box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
 }
-.markerStyle1:after {
+.markerStyle3:after {
   content: '';
   width: 12px;
   height: 12px;
