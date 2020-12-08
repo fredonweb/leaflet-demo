@@ -192,7 +192,7 @@
           }*/
           var marker = new L.marker(data.geometry.coordinates[0], data.geometry.coordinates[1], {
             icon: L.divIcon({
-              className: markerStyle1,
+              className: 'markerStyle1',
               popupAnchor: [2, -14],
               iconSize: null,
               html: '',
