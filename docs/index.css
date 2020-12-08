@@ -76,3 +76,13 @@ nav {
   -webkit-box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
   box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
 }
+.hp3-popup {
+  font-size: 1rem;
+}
+.hp3-title {
+  font-weight: bold;
+}
+.hp3-adresse {
+  line-height: 0rem;
+  font-size: .8rem;
+}

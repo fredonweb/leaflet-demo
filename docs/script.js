@@ -23,12 +23,12 @@
 })()
 
 // Set map, layers and markers
-const zoomLevel = 16;
+const zoomLevel = 17;
 const hp1 = new L.layerGroup;
 const hp3 = new L.LayerGroup();
 //const url = 'datas.json';
-const url = 'https://fredonweb.github.io/leaflet-demo/datas.json';
-const map = L.map('map').setView([45.780364, 4.89267], 12);
+const url = 'https://fredonweb.github.io/leaflet-demo/test.json';
+const map = L.map('map').setView([45.780364, 4.89267], 13);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   minZoom: 1,
@@ -38,14 +38,39 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 fetchRequest(url)
   .then(data => {
-    data.features.forEach(data => {
+    new L.geoJSON(data.features, {
+      pointToLayer: function (feature, latlng) {
+
+        if (feature.properties.logement == 0) {
+          var markerStyle = 'markerStyle1'
+        } else {
+          markerStyle = 'markerStyle3'
+        }
+        if((feature.properties.logement == 0 && feature.properties.hp2 < 1) || (feature.properties.hp3 > 1)) {
+          return L.marker(latlng, {
+            icon: L.divIcon({
+              className: markerStyle,
+              popupAnchor: [2, -14],
+              iconSize: null,
+              html: '',
+            }),
+            rotation: -45,
+            draggable: true
+          })
+        }
+      },
+      onEachFeature: onEachFeature
+    });
+
+
+    /*data.features.forEach(data => {
       console.log(data.properties);
       if (data.properties.HP2 == undefined) {
         var markerStyle = 'markerStyle1';
       } else {
         markerStyle = 'markerStyle3';
       }
-      var marker = new L.marker([data.geometry.coordinates[0],data.geometry.coordinates[1]],{
+      var marker = new L.marker([data.geometry.coordinates[1],data.geometry.coordinates[0]],{
         icon: L.divIcon({
           className: markerStyle,
           popupAnchor: [2, -14],
@@ -53,7 +78,7 @@ fetchRequest(url)
           html: '',
         }),
         rotation: -45,
-        draggable: false
+        draggable: true
       }).bindPopup('<pre>'+JSON.stringify(data.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
 
       if (data.properties.HP2 == undefined) {
@@ -63,68 +88,30 @@ fetchRequest(url)
         console.log('hp3');
         hp3.addLayer(marker);
       }
-    });
+    });*/
   })
   .catch(err => {
     console.log('> fetchRequest(), Error :', err);
   });
-map.addLayer(hp1);
-    /*new L.geoJSON(data.features, {
-      pointToLayer: function (feature, latlng) {
-        if (feature.properties.HP2 == undefined) {
-          var markerStyle = 'markerStyle1'
-        } else {
-          markerStyle = 'markerStyle3'
-        }
-        return L.marker(latlng, {
-          icon: L.divIcon({
-            className: markerStyle,
-            popupAnchor: [2, -14],
-            iconSize: null,
-            html: '',
-          }),
-          rotation: -45,
-          draggable: false
-        })
-      },
-      onEachFeature: onEachFeature
-    });*/
 
-
-
-  /*new L.geoJSON(datas, {
-    pointToLayer: function (feature, latlng) {
-      if (feature.properties.HP2 == undefined) {
-        var markerStyle = 'markerStyle1'
-      } else {
-        markerStyle = 'markerStyle3'
-      }
-      return L.marker(latlng, {
-        icon: L.divIcon({
-          className: markerStyle,
-          popupAnchor: [2, -14],
-          iconSize: null,
-          html: '',
-        }),
-        rotation: -45,
-        draggable: true
-      });
-    },
-    onEachFeature: onEachFeature
-  });*/
-
-  /*function onEachFeature (feature, layer) {
-    if (feature.properties.HP2 == undefined) {
-      console.log('undefined');
+  function onEachFeature (feature, layer) {
+    if (feature.properties.logement == 0) {
       hp1.addLayer(layer);
+      layer.bindPopup('<p class="hp1-popup">' + feature.properties.nom + '</p>');
+      //layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
     } else {
-      console.log('defined');
       hp3.addLayer(layer);
+      //layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
+      layer.bindPopup('<p class="hp3-popup hp3-title">Résidence ' + feature.properties.nom + '</p>' +
+                      '<p class="hp3-popup hp3-adresse">' + feature.properties.numero + ' ' + feature.properties.rue + '</p>' +
+                      '<p class="hp3-popup hp3-adresse">' + feature.properties.cp + ' ' + feature.properties.commune + '</p>' +
+                      '<p class="hp3-popup hp3-title">' + feature.properties.logement + ' logements</p>' +
+                      '<p class="hp3-popup">HP1: ' + feature.properties.hp1 + ' / HP2: ' + feature.properties.hp2 + ' / HP3: ' + feature.properties.hp3 + ' logements</p>'
+      );
     }
-    layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
-  }*/
+  }
 
-
+  map.addLayer(hp1);
 
 
 // Show/Hide layer with zoom level
@@ -151,3 +138,25 @@ async function fetchRequest(url) {
   let data = await response.json();
   return data;
 }
+
+
+/*new L.geoJSON(datas, {
+  pointToLayer: function (feature, latlng) {
+    if (feature.properties.HP2 == undefined) {
+      var markerStyle = 'markerStyle1'
+    } else {
+      markerStyle = 'markerStyle3'
+    }
+    return L.marker(latlng, {
+      icon: L.divIcon({
+        className: markerStyle,
+        popupAnchor: [2, -14],
+        iconSize: null,
+        html: '',
+      }),
+      rotation: -45,
+      draggable: true
+    });
+  },
+  onEachFeature: onEachFeature
+});*/
