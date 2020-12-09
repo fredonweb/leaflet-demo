@@ -3,10 +3,12 @@ html, body {
   height: 100%;
   margin: 0;
   overflow: hidden;
+  font-family: 'Lato', sans-serif;
 }
 .map {
   width: 100%;
   height: 100%;
+  font-family: 'Lato', sans-serif;
 }
 h4 {
   margin: .5rem;
@@ -81,6 +83,7 @@ nav {
 }
 .hp3-title {
   font-weight: bold;
+  line-height: 0.4rem;
 }
 .hp3-adresse {
   line-height: 0rem;

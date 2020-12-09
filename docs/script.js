@@ -42,15 +42,19 @@ fetchRequest(url)
       pointToLayer: function (feature, latlng) {
 
         if (feature.properties.logement == 0) {
-          var markerStyle = 'markerStyle1'
+          var markerStyle = 'markerStyle1';
+          var x = 6;
+          var y = -14;
         } else {
-          markerStyle = 'markerStyle3'
+          markerStyle = 'markerStyle3';
+          x = 2;
+          y = -14;
         }
         if((feature.properties.logement == 0 && feature.properties.hp2 < 1) || (feature.properties.hp3 > 1)) {
           return L.marker(latlng, {
             icon: L.divIcon({
               className: markerStyle,
-              popupAnchor: [2, -14],
+              popupAnchor: [x, y],
               iconSize: null,
               html: '',
             }),
@@ -61,57 +65,30 @@ fetchRequest(url)
       },
       onEachFeature: onEachFeature
     });
-
-
-    /*data.features.forEach(data => {
-      console.log(data.properties);
-      if (data.properties.HP2 == undefined) {
-        var markerStyle = 'markerStyle1';
-      } else {
-        markerStyle = 'markerStyle3';
-      }
-      var marker = new L.marker([data.geometry.coordinates[1],data.geometry.coordinates[0]],{
-        icon: L.divIcon({
-          className: markerStyle,
-          popupAnchor: [2, -14],
-          iconSize: null,
-          html: '',
-        }),
-        rotation: -45,
-        draggable: true
-      }).bindPopup('<pre>'+JSON.stringify(data.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
-
-      if (data.properties.HP2 == undefined) {
-        console.log('hp1');
-        hp1.addLayer(marker);
-      } else {
-        console.log('hp3');
-        hp3.addLayer(marker);
-      }
-    });*/
   })
   .catch(err => {
     console.log('> fetchRequest(), Error :', err);
   });
 
-  function onEachFeature (feature, layer) {
-    if (feature.properties.logement == 0) {
-      hp1.addLayer(layer);
-      layer.bindPopup('<p class="hp1-popup">' + feature.properties.nom + '</p>');
-      //layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
-    } else {
-      hp3.addLayer(layer);
-      //layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
-      layer.bindPopup('<p class="hp3-popup hp3-title">Résidence ' + feature.properties.nom + '</p>' +
-                      '<p class="hp3-popup hp3-adresse">' + feature.properties.numero + ' ' + feature.properties.rue + '</p>' +
-                      '<p class="hp3-popup hp3-adresse">' + feature.properties.cp + ' ' + feature.properties.commune + '</p>' +
-                      '<p class="hp3-popup hp3-title">' + feature.properties.logement + ' logements</p>' +
-                      '<p class="hp3-popup">HP1: ' + feature.properties.hp1 + ' / HP2: ' + feature.properties.hp2 + ' / HP3: ' + feature.properties.hp3 + ' logements</p>'
-      );
-    }
+function onEachFeature (feature, layer) {
+  if (feature.properties.logement == 0) {
+    hp1.addLayer(layer);
+    layer.bindPopup('<p class="hp3-popup hp3-title">' + feature.properties.nom + '</p>');
+    //layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
+  } else {
+    hp3.addLayer(layer);
+    //layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
+    layer.bindPopup('<p class="hp3-popup hp3-title">Résidence ' + feature.properties.nom + '</p>' +
+                    '<p class="hp3-popup hp3-title">' + feature.properties.logement + ' logements</p>' +
+                    '<p class="hp3-popup hp3-adresse">----</p>' +
+                    '<p class="hp3-popup hp3-adresse">' + feature.properties.numero + ' ' + feature.properties.rue + '</p>' +
+                    '<p class="hp3-popup hp3-adresse">' + feature.properties.cp + ' ' + feature.properties.commune + '</p>' +
+                    '<p class="hp3-popup hp3-adresse">HP1: ' + feature.properties.hp1 + ' / HP2: ' + feature.properties.hp2 + ' / HP3: ' + feature.properties.hp3 + '</p>'
+    );
   }
+}
 
-  map.addLayer(hp1);
+map.addLayer(hp1);
 
 
 // Show/Hide layer with zoom level
@@ -138,6 +115,33 @@ async function fetchRequest(url) {
   let data = await response.json();
   return data;
 }
+// Fetch avec methode forEach
+/*data.features.forEach(data => {
+  console.log(data.properties);
+  if (data.properties.HP2 == undefined) {
+    var markerStyle = 'markerStyle1';
+  } else {
+    markerStyle = 'markerStyle3';
+  }
+  var marker = new L.marker([data.geometry.coordinates[1],data.geometry.coordinates[0]],{
+    icon: L.divIcon({
+      className: markerStyle,
+      popupAnchor: [2, -14],
+      iconSize: null,
+      html: '',
+    }),
+    rotation: -45,
+    draggable: true
+  }).bindPopup('<pre>'+JSON.stringify(data.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
+
+  if (data.properties.HP2 == undefined) {
+    console.log('hp1');
+    hp1.addLayer(marker);
+  } else {
+    console.log('hp3');
+    hp3.addLayer(marker);
+  }
+});*/
 
 
 /*new L.geoJSON(datas, {
