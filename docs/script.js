@@ -26,7 +26,6 @@
 const zoomLevel = 17;
 const hp1 = new L.layerGroup;
 const hp3 = new L.LayerGroup();
-//const url = 'datas.json';
 const url = 'https://fredonweb.github.io/leaflet-demo/test.json';
 const map = L.map('map').setView([45.780364, 4.89267], 13);
 
@@ -40,15 +39,16 @@ fetchRequest(url)
   .then(data => {
     new L.geoJSON(data.features, {
       pointToLayer: function (feature, latlng) {
-
         if (feature.properties.logement == 0) {
           var markerStyle = 'markerStyle1';
           var x = 6;
           var y = -14;
+          var tooltipText = feature.properties.hp1;
         } else {
           markerStyle = 'markerStyle3';
           x = 2;
           y = -14;
+          tooltipText = '';
         }
         if((feature.properties.logement == 0 && feature.properties.hp2 < 1) || (feature.properties.hp3 > 1)) {
           return L.marker(latlng, {
@@ -60,7 +60,11 @@ fetchRequest(url)
             }),
             rotation: -45,
             draggable: true
-          })
+          }).bindTooltip(tooltipText,{
+            permanent: true,
+            direction: 'top',
+            offset: [5, 2]
+          });
         }
       },
       onEachFeature: onEachFeature
@@ -77,7 +81,6 @@ function onEachFeature (feature, layer) {
     //layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
   } else {
     hp3.addLayer(layer);
-    //layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
     layer.bindPopup('<p class="hp3-popup hp3-title">Résidence ' + feature.properties.nom + '</p>' +
                     '<p class="hp3-popup hp3-title">' + feature.properties.logement + ' logements</p>' +
                     '<p class="hp3-popup hp3-adresse">----</p>' +

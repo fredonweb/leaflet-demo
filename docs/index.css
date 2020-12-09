@@ -89,3 +89,23 @@ nav {
   line-height: 0rem;
   font-size: .8rem;
 }
+.leaflet-tooltip {
+    position: absolute;
+    padding: 0;
+    background-color: transparent;
+    border: none !important;
+    border-radius: 50% !important;
+    color: #222;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+    box-shadow: none !important;
+    font-weight: 600;
+    font-size: .8rem;
+}
+.leaflet-tooltip-top::before {
+    display: none;
+}
