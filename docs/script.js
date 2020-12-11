@@ -27,7 +27,7 @@ const zoomLevel = 17;
 const hp1 = new L.layerGroup;
 const hp3 = new L.LayerGroup();
 const url = 'https://fredonweb.github.io/leaflet-demo/test.json';
-const map = L.map('map').setView([45.780364, 4.89267], 13);
+const map = L.map('map').setView([45.733025, 4.925995], 12);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   minZoom: 1,
@@ -37,35 +37,36 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 fetchRequest(url)
   .then(data => {
+    console.log('> fetchRequest done,')
+    console.log('> datas : ')
+    console.log(data.features);
     new L.geoJSON(data.features, {
       pointToLayer: function (feature, latlng) {
-        if (feature.properties.logement == 0) {
+        if (feature.properties.HP2 == '') {
           var markerStyle = 'markerStyle1';
           var x = 6;
           var y = -14;
-          var tooltipText = feature.properties.hp1;
+          var tooltipText = feature.properties.HP1;
         } else {
           markerStyle = 'markerStyle3';
           x = 2;
           y = -14;
           tooltipText = '';
         }
-        if((feature.properties.logement == 0 && feature.properties.hp2 < 1) || (feature.properties.hp3 > 1)) {
-          return L.marker(latlng, {
-            icon: L.divIcon({
-              className: markerStyle,
-              popupAnchor: [x, y],
-              iconSize: null,
-              html: '',
-            }),
-            rotation: -45,
-            draggable: true
-          }).bindTooltip(tooltipText,{
-            permanent: true,
-            direction: 'top',
-            offset: [5, 2]
-          });
-        }
+        return L.marker(latlng, {
+          icon: L.divIcon({
+            className: markerStyle,
+            popupAnchor: [x, y],
+            iconSize: null,
+            html: '',
+          }),
+          rotation: -45,
+          draggable: true
+        }).bindTooltip(tooltipText,{
+          permanent: true,
+          direction: 'top',
+          offset: [5, 2]
+        });
       },
       onEachFeature: onEachFeature
     });
@@ -75,24 +76,27 @@ fetchRequest(url)
   });
 
 function onEachFeature (feature, layer) {
-  if (feature.properties.logement == 0) {
+  if (feature.properties.HP2 == '') {
     hp1.addLayer(layer);
-    layer.bindPopup('<p class="hp3-popup hp3-title">' + feature.properties.nom + '</p>');
+    layer.bindPopup('<p class="popup-style popup-style-title">' + feature.properties.ResidenceB + '</p>',
+                      //{className: 'popup-transparent'}
+                    );
     //layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
   } else {
     hp3.addLayer(layer);
-    layer.bindPopup('<p class="hp3-popup hp3-title">Résidence ' + feature.properties.nom + '</p>' +
-                    '<p class="hp3-popup hp3-title">' + feature.properties.logement + ' logements</p>' +
-                    '<p class="hp3-popup hp3-adresse">----</p>' +
-                    '<p class="hp3-popup hp3-adresse">' + feature.properties.numero + ' ' + feature.properties.rue + '</p>' +
-                    '<p class="hp3-popup hp3-adresse">' + feature.properties.cp + ' ' + feature.properties.commune + '</p>' +
-                    '<p class="hp3-popup hp3-adresse">HP1: ' + feature.properties.hp1 + ' / HP2: ' + feature.properties.hp2 + ' / HP3: ' + feature.properties.hp3 + '</p>'
+    layer.bindPopup('<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.ResidenceB + '</p>' +
+                    '<p class="popup-style popup-style-subtitle">' + feature.properties.Nb + ' logements</p>' +
+                    '<p class="popup-style popup-style-adresse">----</p>' +
+                    '<p class="popup-style popup-style-adresse">' + feature.properties.numero + ' ' + feature.properties.rue + '</p>' +
+                    '<p class="popup-style popup-style-adresse">' + feature.properties.cp + ' ' + feature.properties.commune + '</p>' +
+                    '<p class="popup-style popup-style-adresse">HP1: ' + feature.properties.HP1 + ' / HP2: ' + feature.properties.HP2 + ' / HP3: ' + feature.properties.HP3 + '</p>' +
+                    '<p class="popup-style popup-style-adresse">----</p>' +
+                    '<p class="popup-style popup-style-adresse">' + feature.properties.lat + ' / ' + feature.properties.lng + '</p>'
     );
   }
 }
 
 map.addLayer(hp1);
-
 
 // Show/Hide layer with zoom level
 map.on('zoomend', function () {
@@ -114,6 +118,7 @@ map.on('click', onMapClick);
 
 // Fetch async function
 async function fetchRequest(url) {
+  console.log('> fetchRequest...');
   let response = await fetch(url);
   let data = await response.json();
   return data;
