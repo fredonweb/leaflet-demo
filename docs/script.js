@@ -62,11 +62,11 @@ fetchRequest(url)
           }),
           rotation: -45,
           draggable: true
-        }).bindTooltip(tooltipText,{
+        })/*.bindTooltip(tooltipText,{
           permanent: true,
           direction: 'top',
           offset: [5, 2]
-        });
+        })*/;
       },
       onEachFeature: onEachFeature
     });
