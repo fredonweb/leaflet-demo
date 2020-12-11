@@ -41,7 +41,7 @@ nav {
   width: 20px;
   height: 20px;
   margin: 5px 0 0 5px;
-  background: #fff;
+  background: rgba(255, 255, 255, .5);
   position: absolute;
   border-radius: 50%;
   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
@@ -78,14 +78,20 @@ nav {
   -webkit-box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
   box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
 }
-.hp3-popup {
+.popup-style {
   font-size: 1rem;
 }
-.hp3-title {
+.popup-style-title {
+  font-weight: bold;
+  line-height: 1rem;
+  margin-bottom: 16px !important;
+}
+.popup-style-subtitle {
   font-weight: bold;
   line-height: 0.4rem;
+  margin: 0;
 }
-.hp3-adresse {
+.popup-style-adresse {
   line-height: 0rem;
   font-size: .8rem;
 }
@@ -104,7 +110,7 @@ nav {
     pointer-events: none;
     box-shadow: none !important;
     font-weight: 600;
-    font-size: .8rem;
+    font-size: .4rem;
 }
 .leaflet-tooltip-top::before {
     display: none;
