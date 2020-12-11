@@ -1,27 +1,3 @@
-(function() {
-  // Save original method before overwriting it below.
-  const _setPosOriginal = L.Marker.prototype._setPos
-
-  L.Marker.addInitHook(function() {
-    const anchor = this.options.icon.options.iconAnchor
-    this.options.rotationOrigin = anchor ? `${anchor[0]}px ${anchor[1]}px` : 'center center'
-    // Ensure marker remains rotated during dragging.
-    this.on('drag', data => { this._rotate() })
-  })
-
-  L.Marker.include({
-    // _setPos is alled when update() is called, e.g. on setLatLng()
-    _setPos: function(pos) {
-      _setPosOriginal.call(this, pos)
-      if (this.options.rotation) this._rotate()
-    },
-    _rotate: function() {
-      this._icon.style[`${L.DomUtil.TRANSFORM}Origin`] = this.options.rotationOrigin
-      this._icon.style[L.DomUtil.TRANSFORM] += ` rotate(${this.options.rotation}deg)`
-    }
-  })
-})()
-
 // Set map, layers and markers
 const zoomLevel = 17;
 const hp1 = new L.layerGroup;
@@ -35,6 +11,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
+// Resquest datas.json
 fetchRequest(url)
   .then(data => {
     console.log('> fetchRequest done,')
@@ -98,6 +75,12 @@ function onEachFeature (feature, layer) {
 
 map.addLayer(hp1);
 
+//var searchLayer = L.layerGroup().addTo(map);
+//... adding data in searchLayer ...
+map.addControl( new L.Control.Search({layer: hp1, propertyName: 'ResidenceB', zoom: 18, delayType: 200, textPlaceholder: 'Rechercher'}) );
+//searchLayer is a L.LayerGroup contains searched markers
+
+
 // Show/Hide layer with zoom level
 map.on('zoomend', function () {
   if (map.getZoom() < zoomLevel && map.hasLayer(hp3)) {
@@ -123,6 +106,36 @@ async function fetchRequest(url) {
   let data = await response.json();
   return data;
 }
+
+// Rotate markers function
+(function() {
+  // Save original method before overwriting it below.
+  const _setPosOriginal = L.Marker.prototype._setPos
+
+  L.Marker.addInitHook(function() {
+    const anchor = this.options.icon.options.iconAnchor
+    this.options.rotationOrigin = anchor ? `${anchor[0]}px ${anchor[1]}px` : 'center center'
+    // Ensure marker remains rotated during dragging.
+    this.on('drag', data => { this._rotate() })
+  })
+
+  L.Marker.include({
+    // _setPos is alled when update() is called, e.g. on setLatLng()
+    _setPos: function(pos) {
+      _setPosOriginal.call(this, pos)
+      if (this.options.rotation) this._rotate()
+    },
+    _rotate: function() {
+      this._icon.style[`${L.DomUtil.TRANSFORM}Origin`] = this.options.rotationOrigin
+      this._icon.style[L.DomUtil.TRANSFORM] += ` rotate(${this.options.rotation}deg)`
+    }
+  })
+})()
+
+
+
+
+
 // Fetch avec methode forEach
 /*data.features.forEach(data => {
   console.log(data.properties);
