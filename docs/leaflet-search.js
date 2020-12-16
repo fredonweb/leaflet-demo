@@ -100,6 +100,7 @@ L.Control.Search = L.Control.extend({
 		this._input = this._createInput(this.options.textPlaceholder, 'search-input browser-default');
 		this._tooltip = this._createTooltip('search-tooltip');
 		this._cancel = this._createCancel(this.options.textCancel, 'search-cancel');
+    this._cancel.innerHTML = '<i class="material-icons grey-text tiny">cancel</i>';
 		this._button = this._createButton(this.options.textPlaceholder, 'search-button');
     this._button.innerHTML = '<i class="material-icons black-text">search</i>';
 		this._alert = this._createAlert('search-alert');

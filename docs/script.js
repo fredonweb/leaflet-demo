@@ -3,11 +3,11 @@ const zoomLevel = 17;
 const hp1 = new L.layerGroup;
 const hp3 = new L.LayerGroup();
 const url = 'https://fredonweb.github.io/leaflet-demo/test.json';
-const map = L.map('map').setView([45.733025, 4.925995], 12);
-
+const map = L.map('map');
+//const map = L.map('map').setView([45.733025, 4.925995], 12);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   minZoom: 1,
-  maxZoom: 22,
+  maxZoom: 20,
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
@@ -17,11 +17,11 @@ fetchRequest(url)
     console.log('> fetchRequest done,')
     console.log('> datas : ')
     console.log(data.features);
-    new L.geoJSON(data.features, {
+    const markersLayer = new L.geoJSON(data.features, {
       pointToLayer: function (feature, latlng) {
         if (feature.properties.HP2 == '') {
           var markerStyle = 'markerStyle1';
-          var x = 6;
+          var x = 0;
           var y = -14;
           var tooltipText = feature.properties.HP1;
         } else {
@@ -47,6 +47,7 @@ fetchRequest(url)
       },
       onEachFeature: onEachFeature
     });
+    map.fitBounds(markersLayer.getBounds());
   })
   .catch(err => {
     console.log('> fetchRequest(), Error :', err);
@@ -66,9 +67,9 @@ function onEachFeature (feature, layer) {
                     '<p class="popup-style popup-style-adresse">----</p>' +
                     '<p class="popup-style popup-style-adresse">' + feature.properties.numero + ' ' + feature.properties.rue + '</p>' +
                     '<p class="popup-style popup-style-adresse">' + feature.properties.cp + ' ' + feature.properties.commune + '</p>' +
-                    '<p class="popup-style popup-style-adresse">HP1: ' + feature.properties.HP1 + ' / HP2: ' + feature.properties.HP2 + ' / HP3: ' + feature.properties.HP3 + '</p>' +
+                    '<p class="popup-style popup-style-adresse">' + feature.properties.lat + ' / ' + feature.properties.lng + '</p>' +
                     '<p class="popup-style popup-style-adresse">----</p>' +
-                    '<p class="popup-style popup-style-adresse">' + feature.properties.lat + ' / ' + feature.properties.lng + '</p>'
+                    '<p class="popup-style popup-style-HP">HP1: ' + feature.properties.HP1 + ' / HP2: ' + feature.properties.HP2 + ' / HP3: ' + feature.properties.HP3 + '</p>'
     );
   }
 }
@@ -76,10 +77,24 @@ function onEachFeature (feature, layer) {
 map.addLayer(hp1);
 
 //var searchLayer = L.layerGroup().addTo(map);
-//... adding data in searchLayer ...
-map.addControl( new L.Control.Search({layer: hp1, propertyName: 'ResidenceB', zoom: 18, delayType: 200, textPlaceholder: 'Rechercher'}) );
-//searchLayer is a L.LayerGroup contains searched markers
+var searchControl = new L.Control.Search({
+  layer: hp1,
+  propertyName: 'ResidenceB',
+  zoom: 16,
+  delayType: 200,
+  textPlaceholder: 'Rechercher',
+  textErr: 'Aucun résultat',
+  textCancel: 'Annuler',
+  initial: false,
+  marker: false
+});
+searchControl.on('search:locationfound', function(e) {
+	if(e.layer._popup)
+		e.layer.openPopup();
+    map.setView(e.layer.getLatLng());
+})
 
+map.addControl( searchControl );
 
 // Show/Hide layer with zoom level
 map.on('zoomend', function () {

@@ -25,10 +25,10 @@ nav {
   line-height: 80px;
 }
 .markerStyle1 {
-  width: 30px;
-  height: 30px;
-  margin-top: -28px;
-  margin-left: -10px;
+  width: 26px;
+  height: 26px;
+  margin-top: -32px;
+  margin-left: -14px;
   position: absolute;
   background-color: rgb(202, 20, 140);
   border-radius: 50% 50% 50% 0;
@@ -38,8 +38,8 @@ nav {
 }
 .markerStyle1:after {
   content: '';
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   margin: 5px 0 0 5px;
   background: rgba(255, 255, 255, .5);
   position: absolute;
@@ -68,7 +68,7 @@ nav {
   width: 12px;
   height: 12px;
   margin: 5px 0 0 5px;
-  background: #fff;
+  background: rgba(255, 255, 255, .8);
   position: absolute;
   border-radius: 50%;
   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
@@ -77,6 +77,9 @@ nav {
   -moz-box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
   -webkit-box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
   box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
+}
+.leaflet-popup {
+  opacity: .85 !important;
 }
 .popup-style {
   font-size: 1rem;
@@ -94,6 +97,11 @@ nav {
 .popup-style-adresse {
   line-height: 0rem;
   font-size: .8rem;
+}
+.popup-style-HP {
+  line-height: 0rem;
+  font-size: .8rem;
+  font-weight: bold;
 }
 .leaflet-tooltip {
     position: absolute;
