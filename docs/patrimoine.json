@@ -1,79 +1,41 @@
 {"type" : "FeatureCollection", "name" : "Patrimoine", "features" : [
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000098", "HP1":"0001", "HP2":"", "HP3":"", "NB_UG":"0", "NUMERO":"", "RUE":"", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA", "lng":4.9, "lat":45.7}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000099", "HP1":"0001", "HP2":"01", "HP3":"", "NB_UG":"0", "NUMERO":"", "RUE":"", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA           B01"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000100", "HP1":"0001", "HP2":"01", "HP3":"01", "NB_UG":"16", "NUMERO":"143", "RUE":"COURS EMILE ZOLA", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA 143, E.ZOLA"}, "geometry":{"type":"Point", "coordinates":[4.8769757, 45.7700959]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000101", "HP1":"0001", "HP2":"01", "HP3":"02", "NB_UG":"21", "NUMERO":"145", "RUE":"COURS EMILE ZOLA", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA 145, E.ZOLA"}, "geometry":{"type":"Point", "coordinates":[4.8771922, 45.77004050]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000102", "HP1":"0001", "HP2":"02", "HP3":"", "NB_UG":"0", "NUMERO":"", "RUE":"", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA           B02"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000103", "HP1":"0001", "HP2":"02", "HP3":"01", "NB_UG":"20", "NUMERO":"147", "RUE":"COURS EMILE ZOLA", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA 147, E.ZOLA"}, "geometry":{"type":"Point", "coordinates":[4.8773224, 45.7700499]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000104", "HP1":"0001", "HP2":"02", "HP3":"02", "NB_UG":"16", "NUMERO":"149", "RUE":"COURS EMILE ZOLA", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA 149, E.ZOLA"}, "geometry":{"type":"Point", "coordinates":[4.8775692, 45.7700456]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000105", "HP1":"0001", "HP2":"70", "HP3":"", "NB_UG":"0", "NUMERO":"153", "RUE":"CRS EMILE ZOLA", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA           B70"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000106", "HP1":"0001", "HP2":"70", "HP3":"01", "NB_UG":"1", "NUMERO":"153", "RUE":"COURS EMILE ZOLA", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA 153, E.ZOLA"}, "geometry":{"type":"Point", "coordinates":[4.8778938, 45.7700833]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000107", "HP1":"0001", "HP2":"80", "HP3":"", "NB_UG":"0", "NUMERO":"143", "RUE":"CRS EMILE ZOLA", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA           B80"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000108", "HP1":"0001", "HP2":"80", "HP3":"01", "NB_UG":"3", "NUMERO":"143", "RUE":"COURS EMILE ZOLA", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA 143, E.ZOLA"}, "geometry":{"type":"Point", "coordinates":[4.8769757, 45.7700959]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000109", "HP1":"0001", "HP2":"80", "HP3":"02", "NB_UG":"2", "NUMERO":"149", "RUE":"COURS EMILE ZOLA", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA 149, E.ZOLA"}, "geometry":{"type":"Point", "coordinates":[4.8775692, 45.7700456]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000110", "HP1":"0001", "HP2":"80", "HP3":"03", "NB_UG":"1", "NUMERO":"151", "RUE":"COURS EMILE ZOLA", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA 151, E.ZOLA"}, "geometry":{"type":"Point", "coordinates":[4.8775692, 45.7700456]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000111", "HP1":"0002", "HP2":"", "HP3":"", "NB_UG":"0", "NUMERO":"", "RUE":"", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MICHEL SERVET"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000112", "HP1":"0002", "HP2":"01", "HP3":"", "NB_UG":"0", "NUMERO":"24-24", "RUE":"RUE MICHEL SERVET", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MICHEL SERVET        B01"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000113", "HP1":"0002", "HP2":"01", "HP3":"01", "NB_UG":"10", "NUMERO":"22", "RUE":"RUE MICHEL SERVET", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MICHEL SERVET 22, SERVET"}, "geometry":{"type":"Point", "coordinates":[4.8787959, 45.76786389]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000114", "HP1":"0002", "HP2":"01", "HP3":"02", "NB_UG":"16", "NUMERO":"24", "RUE":"RUE MICHEL SERVET", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MICHEL SERVET 24, SERVET"}, "geometry":{"type":"Point", "coordinates":[4.8786736, 45.76779]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000115", "HP1":"0002", "HP2":"02", "HP3":"", "NB_UG":"0", "NUMERO":"28-30", "RUE":"RUE MICHEL SERVET", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MICHEL SERVET        B02"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000116", "HP1":"0002", "HP2":"02", "HP3":"01", "NB_UG":"17", "NUMERO":"28", "RUE":"RUE MICHEL SERVET", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MICHEL SERVET 28, SERVET"}, "geometry":{"type":"Point", "coordinates":[4.8786877, 45.7673812]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000117", "HP1":"0002", "HP2":"02", "HP3":"02", "NB_UG":"12", "NUMERO":"30", "RUE":"RUE MICHEL SERVET", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MICHEL SERVET 30, SERVET"}, "geometry":{"type":"Point", "coordinates":[4.8786877, 45.7673812]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000118", "HP1":"0002", "HP2":"03", "HP3":"", "NB_UG":"0", "NUMERO":"26", "RUE":"RUE MICHEL SERVET", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MICHEL SERVET        B03"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000119", "HP1":"0002", "HP2":"03", "HP3":"01", "NB_UG":"1", "NUMERO":"26", "RUE":"RUE MICHEL SERVET", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MICHEL SERVET 26, SERVET"}, "geometry":{"type":"Point", "coordinates":[4.8787818, 45.7675975]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000120", "HP1":"0002", "HP2":"80", "HP3":"", "NB_UG":"0", "NUMERO":"22-24-28-30", "RUE":"RUE MICHEL SERVET", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MICHEL SERVET        B80"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000121", "HP1":"0002", "HP2":"80", "HP3":"01", "NB_UG":"1", "NUMERO":"22", "RUE":"RUE MICHEL SERVET", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MICHEL SERVET 22, SERVET"}, "geometry":{"type":"Point", "coordinates":[4.8787959, 45.76786389]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000122", "HP1":"0002", "HP2":"80", "HP3":"02", "NB_UG":"2", "NUMERO":"24", "RUE":"RUE MICHEL SERVET", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MICHEL SERVET 24, SERVET"}, "geometry":{"type":"Point", "coordinates":[4.8786736, 45.76779]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000123", "HP1":"0002", "HP2":"80", "HP3":"03", "NB_UG":"1", "NUMERO":"28", "RUE":"RUE MICHEL SERVET", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MICHEL SERVET 28, SERVET"}, "geometry":{"type":"Point", "coordinates":[4.8786877, 45.7673812]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000124", "HP1":"0002", "HP2":"80", "HP3":"04", "NB_UG":"3", "NUMERO":"30", "RUE":"RUE MICHEL SERVET", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MICHEL SERVET 30, SERVET"}, "geometry":{"type":"Point", "coordinates":[4.8786877, 45.7673812]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000125", "HP1":"0003", "HP2":"", "HP3":"", "NB_UG":"0", "NUMERO":"", "RUE":"", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"BOUVIER 1"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000126", "HP1":"0003", "HP2":"01", "HP3":"", "NB_UG":"0", "NUMERO":"6/8", "RUE":"RUE PROF EMILE BOUVIER", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"BOUVIER 1            B01"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000127", "HP1":"0003", "HP2":"01", "HP3":"01", "NB_UG":"20", "NUMERO":"6/8", "RUE":"RUE PROF EMILE BOUVIER", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"BOUVIER 1 6/8, E.BOUVIER"}, "geometry":{"type":"Point", "coordinates":[4.8901929, 45.7793998]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000128", "HP1":"0003", "HP2":"02", "HP3":"", "NB_UG":"0", "NUMERO":"5/7", "RUE":"RUE PROF EMILE BOUVIER", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"BOUVIER 1            B02"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000129", "HP1":"0003", "HP2":"02", "HP3":"01", "NB_UG":"20", "NUMERO":"5/7", "RUE":"RUE PROF EMILE BOUVIER", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"BOUVIER 1 5/7, E.BOUVIER"}, "geometry":{"type":"Point", "coordinates":[4.8902573, 45.7792126]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000130", "HP1":"0004", "HP2":"", "HP3":"", "NB_UG":"0", "NUMERO":"", "RUE":"", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MULHOUSE"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000131", "HP1":"0004", "HP2":"01", "HP3":"", "NB_UG":"0", "NUMERO":"26-28", "RUE":"RUE GEORGES PICOT", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MULHOUSE             B01"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000132", "HP1":"0004", "HP2":"01", "HP3":"01", "NB_UG":"8", "NUMERO":"26", "RUE":"RUE GEORGES PICOT", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MULHOUSE 26, G.PICOT"}, "geometry":{"type":"Point", "coordinates":[4.8969775, 45.7738654]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000133", "HP1":"0004", "HP2":"01", "HP3":"02", "NB_UG":"8", "NUMERO":"28", "RUE":"RUE GEORGES PICOT", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MULHOUSE 28, G.PICOT"}, "geometry":{"type":"Point", "coordinates":[4.8967971, 45.7738192]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000136", "HP1":"0004", "HP2":"50", "HP3":"", "NB_UG":"0", "NUMERO":"17", "RUE":"RUE DE MULHOUSE", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MULHOUSE             B50"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
-
 {"type":"Feature", "properties":{"num_coordonnee":"000000137", "HP1":"0004", "HP2":"50", "HP3":"01", "NB_UG":"0", "NUMERO":"17", "RUE":"RUE DE MULHOUSE", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"MULHOUSE 17, MULHOUSE"}, "geometry":{"type":"Point", "coordinates":[4.8967505, 45.7735902]}},
 
 {"type":"Feature", "properties":{"num_coordonnee":"000000138", "HP1":"0005", "HP2":"", "HP3":"", "NB_UG":"0", "NUMERO":"", "RUE":"", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"BONNETERRE"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
