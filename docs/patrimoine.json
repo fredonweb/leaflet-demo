@@ -1,6 +1,6 @@
 {"type" : "FeatureCollection", "name" : "Patrimoine", "features" : [
 
-{"type":"Feature", "properties":{"num_coordonnee":"000000098", "HP1":"0001", "HP2":"", "HP3":"", "NB_UG":"0", "NUMERO":"", "RUE":"", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
+{"type":"Feature", "properties":{"num_coordonnee":"000000098", "HP1":"0001", "HP2":"", "HP3":"", "NB_UG":"0", "NUMERO":"", "RUE":"", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA", "lng":4.9, "lat":45.7}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
 
 {"type":"Feature", "properties":{"num_coordonnee":"000000099", "HP1":"0001", "HP2":"01", "HP3":"", "NB_UG":"0", "NUMERO":"", "RUE":"", "LOC":"VILLEURBANNE", "CODE_POSTAL":"69100", "LIBELLE":"EMILE ZOLA           B01"}, "geometry":{"type":"Point", "coordinates":[4.9,45.7]}},
 
