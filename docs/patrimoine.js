@@ -2,9 +2,9 @@
 const zoomLevel = 17;
 const hp1 = new L.layerGroup;
 const hp3 = new L.LayerGroup();
-const url = 'https://fredonweb.github.io/leaflet-demo/test.json';
-const map = L.map('map');
-//const map = L.map('map').setView([45.733025, 4.925995], 12);
+const url = 'https://fredonweb.github.io/leaflet-demo/patrimoine.json';
+//const map = L.map('map');
+const map = L.map('map').setView([45.733025, 4.925995], 12);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   minZoom: 1,
   maxZoom: 20,
@@ -19,75 +19,30 @@ fetchRequest(url)
     console.log(data.features);
     const markersLayer = new L.geoJSON(data.features, {
       pointToLayer: function (feature, latlng) {
-        if (feature.properties.HP2 == '') {
-          var markerStyle = 'markerStyle1';
-          var x = 0;
-          var y = -14;
-          //var tooltipText = feature.properties.HP1;
-        } else {
-          markerStyle = 'markerStyle3';
-          x = 2;
-          y = -14;
-          //tooltipText = '';
-        }
         return L.marker(latlng, {
           icon: L.divIcon({
-            className: markerStyle,
-            popupAnchor: [x, y],
+            className: 'markerStyle3',
+            popupAnchor: [2, -14],
             iconSize: null,
             html: '',
           }),
           rotation: -45,
           draggable: true
-        })/*.bindTooltip(tooltipText,{
-          permanent: true,
-          direction: 'top',
-          offset: [5, 2]
-        })*/;
+        });
       },
       onEachFeature: onEachFeature
     });
-    map.fitBounds(markersLayer.getBounds());
   })
   .catch(err => {
     console.log('> fetchRequest(), Error :', err);
   });
 
 function onEachFeature (feature, layer) {
-  if (feature.properties.HP2 == '') {
-    hp1.addLayer(layer);
-    layer.bindPopup('<p class="popup-style popup-style-title">' + feature.properties.LIBELLE + '</p>');
-    //layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
-  } else {
-    hp3.addLayer(layer);
-    var position = layer.getLatLng();
-
-    let popupContent = '<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.LIBELLE + '</p>' +
-                       '<p class="popup-style popup-style-subtitle">' + feature.properties.Nb + ' logements</p>' +
-                       '<p class="popup-style popup-style-adresse">----</p>' +
-                       '<p class="popup-style popup-style-adresse">' + feature.properties.numero + ' ' + feature.properties.rue + '</p>' +
-                       '<p class="popup-style popup-style-adresse">' + feature.properties.cp + ' ' + feature.properties.commune + '</p>' +
-                       '<p class="popup-style popup-style-adresse">' + position.lat + ', ' + position.lng + '</p>' +
-                       '<p class="popup-style popup-style-adresse">----</p>' +
-                       '<p class="popup-style popup-style-HP">HP1: ' + feature.properties.HP1 + ' / HP2: ' + feature.properties.HP2 + ' / HP3: ' + feature.properties.HP3 + '</p>';
-
-    layer.bindPopup(popupContent);
-
-    // Update popupContent after dragend marker
-    layer.on('dragend', function(event){
-      position = layer.getLatLng();
-      layer.setLatLng(position);
-      let popupContent = '<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.LIBELLE + '</p>' +
-                         '<p class="popup-style popup-style-subtitle">' + feature.properties.Nb + ' logements</p>' +
-                         '<p class="popup-style popup-style-adresse">----</p>' +
-                         '<p class="popup-style popup-style-adresse">Nouvelles coordonnées géographiques :</p>' +
-                         '<p class="popup-style popup-style-adresse">' + position.lat + ', ' + position.lng + '</p>' +
-                         '<p class="popup-style popup-style-adresse">----</p>' +
-                         '<p class="popup-style popup-style-HP">HP1: ' + feature.properties.HP1 + ' / HP2: ' + feature.properties.HP2 + ' / HP3: ' + feature.properties.HP3 + '</p>';
-      layer.setPopupContent(popupContent);
-    });
-  }
+  hp1.addLayer(layer);
+  layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
 }
+
+map.addLayer(hp1);
 
 var searchControl = new L.Control.Search({
   layer: hp1,
@@ -107,24 +62,6 @@ searchControl.on('search:locationfound', function(e) {
 });
 
 map.addControl( searchControl );
-
-// Show/Hide layer with zoom level
-map.on('zoomend', function () {
-  if (map.getZoom() < zoomLevel && map.hasLayer(hp3)) {
-      map.removeLayer(hp3);
-      map.addLayer(hp1);
-  }
-  if (map.getZoom() > zoomLevel && map.hasLayer(hp3) == false) {
-      map.removeLayer(hp1);
-      map.addLayer(hp3);
-  }
-});
-
-// Return latlng on map click
-function onMapClick(e) {
-  console.log(e.latlng.toString())
-}
-map.on('click', onMapClick);
 
 // Fetch async function
 async function fetchRequest(url) {
