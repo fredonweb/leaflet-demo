@@ -2,7 +2,7 @@
 const zoomLevel = 17;
 const hp1 = new L.layerGroup;
 const hp3 = new L.LayerGroup();
-const url = 'https://fredonweb.github.io/leaflet-demo/test.json';
+const url = 'https://fredonweb.github.io/leaflet-demo/patrimoine.json';
 const map = L.map('map');
 //const map = L.map('map').setView([45.733025, 4.925995], 12);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -57,20 +57,36 @@ function onEachFeature (feature, layer) {
   if (feature.properties.HP2 == '') {
     hp1.addLayer(layer);
     layer.bindPopup('<p class="popup-style popup-style-title">' + feature.properties.ResidenceB + '</p>',
-                      //{className: 'popup-transparent'}
                     );
     //layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
   } else {
     hp3.addLayer(layer);
-    layer.bindPopup('<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.ResidenceB + '</p>' +
-                    '<p class="popup-style popup-style-subtitle">' + feature.properties.Nb + ' logements</p>' +
-                    '<p class="popup-style popup-style-adresse">----</p>' +
-                    '<p class="popup-style popup-style-adresse">' + feature.properties.numero + ' ' + feature.properties.rue + '</p>' +
-                    '<p class="popup-style popup-style-adresse">' + feature.properties.cp + ' ' + feature.properties.commune + '</p>' +
-                    '<p class="popup-style popup-style-adresse">' + feature.properties.lat + ' / ' + feature.properties.lng + '</p>' +
-                    '<p class="popup-style popup-style-adresse">----</p>' +
-                    '<p class="popup-style popup-style-HP">HP1: ' + feature.properties.HP1 + ' / HP2: ' + feature.properties.HP2 + ' / HP3: ' + feature.properties.HP3 + '</p>'
-    );
+    var position = layer.getLatLng();
+
+    let popupContent = '<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.ResidenceB + '</p>' +
+                       '<p class="popup-style popup-style-subtitle">' + feature.properties.Nb + ' logements</p>' +
+                       '<p class="popup-style popup-style-adresse">----</p>' +
+                       '<p class="popup-style popup-style-adresse">' + feature.properties.numero + ' ' + feature.properties.rue + '</p>' +
+                       '<p class="popup-style popup-style-adresse">' + feature.properties.cp + ' ' + feature.properties.commune + '</p>' +
+                       '<p class="popup-style popup-style-adresse">' + position.lat + ', ' + position.lng + '</p>' +
+                       '<p class="popup-style popup-style-adresse">----</p>' +
+                       '<p class="popup-style popup-style-HP">HP1: ' + feature.properties.HP1 + ' / HP2: ' + feature.properties.HP2 + ' / HP3: ' + feature.properties.HP3 + '</p>';
+
+    layer.bindPopup(popupContent);
+
+    // Update popupContent after dragend marker
+    layer.on('dragend', function(event){
+      position = layer.getLatLng();
+      layer.setLatLng(position);
+      let popupContent = '<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.ResidenceB + '</p>' +
+                         '<p class="popup-style popup-style-subtitle">' + feature.properties.Nb + ' logements</p>' +
+                         '<p class="popup-style popup-style-adresse">----</p>' +
+                         '<p class="popup-style popup-style-adresse">Nouvelles coordonnées géographiques :</p>' +
+                         '<p class="popup-style popup-style-adresse">' + position.lat + ', ' + position.lng + '</p>' +
+                         '<p class="popup-style popup-style-adresse">----</p>' +
+                         '<p class="popup-style popup-style-HP">HP1: ' + feature.properties.HP1 + ' / HP2: ' + feature.properties.HP2 + ' / HP3: ' + feature.properties.HP3 + '</p>';
+      layer.setPopupContent(popupContent);
+    });
   }
 }
 
