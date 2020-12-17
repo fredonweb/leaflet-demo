@@ -101,11 +101,11 @@ function popupContentFct(feature, position) {
                      '<p class="popup-style popup-style-adresse">' + feature.properties.CODE_POSTAL + ' ' + feature.properties.LOC + '</p>' +
                      '<p class="popup-style popup-style-adresse">' + position.lat + ', ' + position.lng + '</p>' +
                      '<p class="popup-style popup-style-adresse">----</p>' +
-                     '<p class="popup-style popup-style-HP">HP1: ' + feature.properties.HP1 + ' / HP2: ' + feature.properties.HP2 + ' / HP3: ' + feature.properties.HP3 + '</p>';
-*/  return popupContent
+                     '<p class="popup-style popup-style-HP">HP1: ' + feature.properties.HP1 + ' / HP2: ' + feature.properties.HP2 + ' / HP3: ' + feature.properties.HP3 + '</p>';*/
+  return popupContent
 }
 
-// Show/Hide layer with zoom level
+// Show/Hide layers with zoom level
 map.on('zoomend', function () {
   if (hpLevels) {
     if (map.getZoom() < zoomLevel) {
