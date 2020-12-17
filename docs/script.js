@@ -2,7 +2,7 @@
 const zoomLevel = 17;
 const hp1 = new L.layerGroup;
 const hp3 = new L.LayerGroup();
-const url = 'https://fredonweb.github.io/leaflet-demo/patrimoine.json';
+const url = 'https://fredonweb.github.io/leaflet-demo/test.json';
 const map = L.map('map');
 //const map = L.map('map').setView([45.733025, 4.925995], 12);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -23,12 +23,12 @@ fetchRequest(url)
           var markerStyle = 'markerStyle1';
           var x = 0;
           var y = -14;
-          var tooltipText = feature.properties.HP1;
+          //var tooltipText = feature.properties.HP1;
         } else {
           markerStyle = 'markerStyle3';
           x = 2;
           y = -14;
-          tooltipText = '';
+          //tooltipText = '';
         }
         return L.marker(latlng, {
           icon: L.divIcon({
@@ -56,14 +56,13 @@ fetchRequest(url)
 function onEachFeature (feature, layer) {
   if (feature.properties.HP2 == '') {
     hp1.addLayer(layer);
-    layer.bindPopup('<p class="popup-style popup-style-title">' + feature.properties.ResidenceB + '</p>',
-                    );
+    layer.bindPopup('<p class="popup-style popup-style-title">' + feature.properties.LIBELLE + '</p>');
     //layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>');
   } else {
     hp3.addLayer(layer);
     var position = layer.getLatLng();
 
-    let popupContent = '<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.ResidenceB + '</p>' +
+    let popupContent = '<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.LIBELLE + '</p>' +
                        '<p class="popup-style popup-style-subtitle">' + feature.properties.Nb + ' logements</p>' +
                        '<p class="popup-style popup-style-adresse">----</p>' +
                        '<p class="popup-style popup-style-adresse">' + feature.properties.numero + ' ' + feature.properties.rue + '</p>' +
@@ -78,7 +77,7 @@ function onEachFeature (feature, layer) {
     layer.on('dragend', function(event){
       position = layer.getLatLng();
       layer.setLatLng(position);
-      let popupContent = '<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.ResidenceB + '</p>' +
+      let popupContent = '<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.LIBELLE + '</p>' +
                          '<p class="popup-style popup-style-subtitle">' + feature.properties.Nb + ' logements</p>' +
                          '<p class="popup-style popup-style-adresse">----</p>' +
                          '<p class="popup-style popup-style-adresse">Nouvelles coordonnées géographiques :</p>' +
@@ -90,12 +89,9 @@ function onEachFeature (feature, layer) {
   }
 }
 
-map.addLayer(hp1);
-
-//var searchLayer = L.layerGroup().addTo(map);
 var searchControl = new L.Control.Search({
   layer: hp1,
-  propertyName: 'ResidenceB',
+  propertyName: 'LIBELLE',
   zoom: 16,
   delayType: 200,
   textPlaceholder: 'Rechercher',
@@ -108,7 +104,7 @@ searchControl.on('search:locationfound', function(e) {
 	if(e.layer._popup)
 		e.layer.openPopup();
     map.setView(e.layer.getLatLng());
-})
+});
 
 map.addControl( searchControl );
 
