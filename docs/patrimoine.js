@@ -2,7 +2,8 @@
 const zoomLevel = 17;
 const hp1 = new L.layerGroup;
 const hp3 = new L.LayerGroup();
-const url = 'https://fredonweb.github.io/leaflet-demo/patrimoine.json';
+//const url = 'https://fredonweb.github.io/leaflet-demo/patrimoine.json';
+const url = 'http://srvssoikos/JSON/patrimoine.json';
 //const map = L.map('map');
 const map = L.map('map').setView([45.733025, 4.925995], 12);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
