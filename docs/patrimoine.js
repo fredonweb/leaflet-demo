@@ -1,4 +1,6 @@
+// Set log messages
 const ouBatir = '[OuBatir]: '
+
 // Set map, layers and markers
 const zoomLevel = 17;
 const hp1 = new L.layerGroup();
