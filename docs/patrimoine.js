@@ -11,7 +11,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // Set hp levels view
-const hpLevels = true;
+const hpLevels = false;
 if (!hpLevels) map.addLayer(hp3);
 
 // Search control plugin
