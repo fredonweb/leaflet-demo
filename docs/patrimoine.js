@@ -1,9 +1,11 @@
+const ouBatir = '[OuBatir]: '
 // Set map, layers and markers
 const zoomLevel = 17;
 const hp1 = new L.layerGroup();
 const hp3 = new L.LayerGroup();
 const url = 'https://fredonweb.github.io/leaflet-demo/patrimoine.json';
-const map = L.map('map').setView([45.733025, 4.925995], 12);
+//const map = L.map('map').setView([45.733025, 4.925995], 12);
+const map = L.map('map');
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   minZoom: 1,
   maxZoom: 20,
@@ -11,7 +13,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // Set hp levels view
-const hpLevels = false;
+const hpLevels = true;
 if (!hpLevels) map.addLayer(hp3);
 
 // Search control plugin
@@ -37,8 +39,8 @@ map.addControl( searchControl );
 // Resquest patrimoine.json
 fetchRequest(url)
   .then(data => {
-    console.log('> fetchRequest done,')
-    console.log('> datas : ')
+    console.log(ouBatir + 'fetchRequest done,')
+    console.log(ouBatir + 'datas : ')
     console.log(data.features);
     const markersLayer = new L.geoJSON(data.features, {
       pointToLayer: function (feature, latlng) {
@@ -64,9 +66,11 @@ fetchRequest(url)
       },
       onEachFeature: onEachFeature
     });
+    map.fitBounds(markersLayer.getBounds());
+    console.log(ouBatir + 'load datas done');
   })
   .catch(err => {
-    console.log('> fetchRequest(), Error :', err);
+    console.log(ouBatir + 'fetchRequest(), Error :', err);
   });
 
 function onEachFeature (feature, layer) {
@@ -123,7 +127,7 @@ map.on('zoomend', function () {
 
 // Fetch async function
 async function fetchRequest(url) {
-  console.log('> fetchRequest...');
+  console.log(ouBatir + 'fetchRequest datas...');
   let response = await fetch(url);
   let data = await response.json();
   return data;
