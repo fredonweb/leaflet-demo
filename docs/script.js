@@ -30,12 +30,23 @@ fetchRequest(url)
           y = -14;
           //tooltipText = '';
         }
+        /*const markerHtmlStyles = `
+          background-color: blue;
+          font-color: black;
+          width: 16px;
+          height: 16px;
+          position: absolute;
+          border-radius: 50%;
+          border: 1px solid #FFFFFF;
+          margin: 5px;
+          z-index: 200;`*/
+          
         return L.marker(latlng, {
           icon: L.divIcon({
             className: markerStyle,
             popupAnchor: [x, y],
             iconSize: null,
-            html: '',
+            //html: '<span style="' + markerHtmlStyles + '">test</span>',
           }),
           rotation: -45,
           draggable: true

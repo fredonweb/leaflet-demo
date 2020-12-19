@@ -103,13 +103,10 @@ nav {
   font-size: .8rem;
   font-weight: bold;
 }
-.leaflet-tooltip {
-    position: absolute;
-    padding: 0;
+/*.leaflet-tooltip {
+    margin-top: -24px;
     background-color: transparent;
     border: none !important;
-    border-radius: 50% !important;
-    color: #222;
     white-space: nowrap;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -118,8 +115,8 @@ nav {
     pointer-events: none;
     box-shadow: none !important;
     font-weight: 600;
-    font-size: .4rem;
+    font-size: 1rem;
 }
 .leaflet-tooltip-top::before {
     display: none;
-}
+}*/
