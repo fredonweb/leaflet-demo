@@ -1,30 +1,26 @@
-// Set log messages
-const ouBatir = '[OuBatir]: '
+const debug = true;
+const ouBatir = '[OuBatir]: ';
 
+//
 // Set map, layers and markers
 const zoomLevel = 17;
 const markerGroupHp1 = new L.layerGroup();
 const markerGroupHp3 = new L.LayerGroup();
 const url = 'https://fredonweb.github.io/leaflet-demo/patrimoine.geojson';
-//const map = L.map('map').setView([45.733025, 4.925995], 12);
 const map = L.map('map', {
   zoomSnap: 0.25,
   zoomDelta: 0.25,
   minZoom: 11,
   maxZoom: 19
 });
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+const tile = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   minZoom: 1,
   maxZoom: 20,
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-
-// Set hp levels view
-const hpLevels = true;
-if (!hpLevels) map.addLayer(markerGroupHp3);
+});
 
 // Search control plugin
-var searchControl = new L.Control.Search({
+const searchControl = new L.Control.Search({
   layer: markerGroupHp1,
   propertyName: 'LIBELLE',
   zoom: 16,
@@ -41,25 +37,63 @@ searchControl.on('search:locationfound', function(e) {
     map.setView(e.layer.getLatLng());
 });
 
+tile.addTo(map);
 map.addControl( searchControl );
 
-// Resquest patrimoine.json
+// Set hp levels view
+const hpLevels = true;
+if (!hpLevels) map.addLayer(markerGroupHp3);
+
+//
+// Resquest patrimoine.geojson
 fetchRequest(url)
   .then(data => {
-    console.log(ouBatir + 'fetchRequest done,')
-    console.log(ouBatir + 'datas : ')
-    console.log(data.features);
+    _log('fetchRequest done,');
+    _log('datas : ');
+    if (debug) console.log(data.features);
 
     const markersLayer = new L.geoJSON(data.features, {
       pointToLayer: function (feature, latlng) {
+        let markerCustomColour = 'rgba(255, 255, 255, .9)';
+        if (feature.properties.NB_UG > 1) markerCustomColour = 'rgba(255, 255, 255, .6)';
+        if (feature.properties.NB_UG > 5) markerCustomColour = 'rgba(255, 255, 255, .3)';
+        if (feature.properties.NB_UG > 10) markerCustomColour = 'rgba(255, 255, 255, 0)';
         let markerStyle = 'markerStyle3';
+        let insideMarkerStyle = `
+          width: 18px;
+          height: 18px;
+          display: block;
+          position: relative;
+          transform: rotate(45deg);
+          border-radius: 50%;
+          border: 1px solid #FFFFFF;
+          margin: 2px;
+          background-color: ${markerCustomColour};`;
         let x = 2;
         let y = -14;
         let tooltipText = feature.properties.LIBELLE;
+        let abbr = '';
+
         if (hpLevels && feature.properties.HP2 == '') {
+          markerCustomColour = 'rgba(255, 255, 255, .5);';
           markerStyle = 'markerStyle1';
+          insideMarkerStyle = `
+            width: 22px;
+            height: 22px;
+            display: block;
+            position: relative;
+            transform: rotate(45deg);
+            border-radius: 50%;
+            border: 1px solid #FFFFFF;
+            margin: 2px;
+            padding: 1px 0 0 2px;
+            background-color: ${markerCustomColour};
+            color: rgba(0, 0, 0, .9);
+            font-weight: 600;
+            font-size: .8rem;`
           x = 0;
           y = -14;
+          abbr = feature.properties.LIBELLE.split(' ').map(function(item){return item[0]}).join('');
         }
 
         return L.marker(latlng, {
@@ -68,7 +102,8 @@ fetchRequest(url)
             //iconAnchor: [0, 24],
             //labelAnchor: [-6, 0],
             popupAnchor: [x, y],
-            iconSize: null
+            iconSize: null,
+            html: '<span style="' + insideMarkerStyle + '" />' + abbr + '</span>'
           }),
           rotation: -45,
           draggable: true,
@@ -81,9 +116,9 @@ fetchRequest(url)
       onEachFeature: onEachFeature
     });
 
-    map.fitBounds(markersLayer.getBounds());
+    map.fitBounds(markersLayer.getBounds(), {padding: [50, 50]});
 
-    console.log(ouBatir + 'load datas done');
+    _log('load datas done');
   })
   .catch(err => {
     console.log(ouBatir + 'fetchRequest(), Error :', err);
@@ -143,7 +178,7 @@ map.on('zoomend', function () {
 
 // Fetch async function
 async function fetchRequest(url) {
-  console.log(ouBatir + 'fetchRequest datas...');
+  _log('fetchRequest datas...');
   let response = await fetch(url);
   let data = await response.json();
   return data;
@@ -173,3 +208,9 @@ async function fetchRequest(url) {
     }
   })
 })()
+
+function _log(msg) {
+  if (debug) {
+		console.log(ouBatir + msg);
+	}
+}
