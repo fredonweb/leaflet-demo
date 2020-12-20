@@ -120,3 +120,8 @@ nav {
 .leaflet-tooltip-top::before {
     display: none;
 }*/
+
+i.tiny {
+  font-size: 1.55rem !important;
+  margin: -2.8px !important;
+}

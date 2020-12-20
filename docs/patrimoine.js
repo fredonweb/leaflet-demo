@@ -1,3 +1,18 @@
+// HP1 / HP2 / HP3
+// Numero / rue / cp / localite
+// Libellé
+// Résidence familiale / étudiante / sociale
+// Nom du gestionnaire
+// Nombre de logements
+// Nombre PLAI / PLUS / PLS
+// Nombre Studio/T1/T2/T3/T4/T5
+// Nombre de locataires / Répartition par classe d'âges
+// Date de construction
+// Date de conventionnement
+// Proportion d'impayés
+// Montant mensuel des loyers
+// Travaux en cours
+
 const debug = true;
 const ouBatir = '[OuBatir]: ';
 
@@ -86,16 +101,53 @@ fetchRequest(url)
             border-radius: 50%;
             border: 1px solid #FFFFFF;
             margin: 2px;
-            padding: 1px 0 0 2px;
+            padding: 1px 0 0 1px;
             background-color: ${markerCustomColour};
             color: rgba(0, 0, 0, .9);
-            font-weight: 600;
+            font-weight: 900;
             font-size: .8rem;`
           x = 0;
           y = -14;
-          abbr = feature.properties.LIBELLE.split(' ').map(function(item){return item[0]}).join('');
+          abbr = abbrev(feature.properties.LIBELLE);
         }
-
+        if (feature.properties.LIBELLE == 'MULHOUSE') {
+          markerStyle = 'markerStyle1';
+          insideMarkerStyle = `
+            width: 22px;
+            height: 22px;
+            display: block;
+            position: relative;
+            transform: rotate(45deg);
+            border-radius: 50%;
+            border: 2px solid ${markerCustomColour};
+            margin: 2px;
+            background-color: ${markerCustomColour};
+            color: rgba(0, 0, 0, .9);
+            font-weight: 900;
+            font-size: .65rem;`
+          x = 0;
+          y = -14;
+          abbr = '<i class="tiny material-icons">school</i>';
+        }
+        if (feature.properties.LIBELLE == 'MICHEL SERVET') {
+          markerStyle = 'markerStyle1';
+          insideMarkerStyle = `
+            width: 22px;
+            height: 22px;
+            display: block;
+            position: relative;
+            transform: rotate(45deg);
+            border-radius: 50%;
+            border: 2px solid ${markerCustomColour};
+            margin: 2px;
+            background-color: ${markerCustomColour};
+            color: rgba(0, 0, 0, .9);
+            font-weight: 900;
+            font-size: .65rem;`
+          x = 0;
+          y = -14;
+          abbr = '<i class="tiny material-icons">hotel</i>';
+        }
         return L.marker(latlng, {
           icon: L.divIcon({
             className: markerStyle,
@@ -209,8 +261,20 @@ async function fetchRequest(url) {
   })
 })()
 
+// Some util functions
 function _log(msg) {
   if (debug) {
 		console.log(ouBatir + msg);
 	}
+}
+
+function abbrev(value) {
+  let nb = value.split(' ');
+  if (nb.length > 1) {
+    var x = value.split(' ').map(function(item){return item[0]}).join('.');
+  } else {
+    x = value.substr(0, 2);
+  }
+  console.log(x);
+  return x;
 }
