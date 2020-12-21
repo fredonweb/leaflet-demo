@@ -9,7 +9,6 @@ const hpLevels = true;
 const hpLevelsZoom = 17;
 const markerGroupHp1 = new L.layerGroup();
 const markerGroupHp3 = new L.LayerGroup();
-const overlays = {};
 const url = 'https://fredonweb.github.io/leaflet-demo/patrimoine.geojson';
 //const url = 'http://srvssoikos/JSON/patrimoine.json'; //EMH srvssoikos
 
@@ -244,7 +243,9 @@ function abbrev(value) {
   border: 1px solid #FFFFFF;
   background-color: ${markerCustomColor}`;*/
 
-/*if (!overlays.hasOwnProperty(feature.properties.LIBELLE)) {
+/*
+const overlays = {};
+if (!overlays.hasOwnProperty(feature.properties.LIBELLE)) {
   overlays[feature.properties.LIBELLE] = new L.LayerGroup().addTo(map);
 }
 if (hpLevels && feature.properties.HP2 == '') {
