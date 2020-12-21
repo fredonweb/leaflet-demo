@@ -1,32 +1,27 @@
-// HP1 / HP2 / HP3
-// Numero / rue / cp / localite
-// Libellé
-// Résidence familiale / étudiante / sociale
-// Nom du gestionnaire
-// Nombre de logements
-// Nombre PLAI / PLUS / PLS
-// Nombre Studio/T1/T2/T3/T4/T5
-// Nombre de locataires / Répartition par classe d'âges
-// Date de construction
-// Date de conventionnement
-// Proportion d'impayés
-// Montant mensuel des loyers
-// Travaux en cours
+// Gestion HP1 / HP3
+// http://plnkr.co/edit/cHPSLKDbltxr9jFZotOD?p=preview&preview
+// https://stackoverflow.com/questions/32449111/set-different-l-divicon-style-depending-on-geojson-properties
 
+// Global variables
 const debug = true;
 const ouBatir = '[OuBatir]: ';
-
-//
-// Set map, layers and markers
-const zoomLevel = 17;
+const hpLevels = true;
+const hpLevelsZoom = 17;
 const markerGroupHp1 = new L.layerGroup();
 const markerGroupHp3 = new L.LayerGroup();
 const url = 'https://fredonweb.github.io/leaflet-demo/patrimoine.geojson';
+//const url = 'http://srvssoikos/JSON/patrimoine.json'; //EMH srvssoikos
+
+// Set map, layers and markers
 const map = L.map('map', {
   zoomSnap: 0.25,
   zoomDelta: 0.25,
   minZoom: 11,
-  maxZoom: 19
+  maxZoom: 19,
+  /* Del after update markers coords */
+  center: [45.755377, 4.892275],
+  zoom: 14
+  /* */
 });
 const tile = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   minZoom: 1,
@@ -56,7 +51,6 @@ tile.addTo(map);
 map.addControl( searchControl );
 
 // Set hp levels view
-const hpLevels = true;
 if (!hpLevels) map.addLayer(markerGroupHp3);
 
 //
@@ -72,90 +66,52 @@ fetchRequest(url)
         let markerCustomColour = 'rgba(255, 255, 255, .9)';
         if (feature.properties.NB_UG > 1) markerCustomColour = 'rgba(255, 255, 255, .6)';
         if (feature.properties.NB_UG > 5) markerCustomColour = 'rgba(255, 255, 255, .3)';
-        if (feature.properties.NB_UG > 10) markerCustomColour = 'rgba(255, 255, 255, 0)';
-        let markerStyle = 'markerStyle3';
-        let insideMarkerStyle = `
+        if (feature.properties.NB_UG > 9) markerCustomColour = 'rgba(255, 255, 255, 0)';
+        if (feature.properties.NB_UG > 19) markerCustomColour = 'rgba(132, 13, 90, 1)';
+        let markerStyle = 'marker-style-medium';
+        let markerStyleCenter = `
           width: 18px;
           height: 18px;
-          display: block;
-          position: relative;
-          transform: rotate(45deg);
-          border-radius: 50%;
           border: 1px solid #FFFFFF;
-          margin: 2px;
-          background-color: ${markerCustomColour};`;
+          background-color: ${markerCustomColour}`;
         let x = 2;
         let y = -14;
         let tooltipText = feature.properties.LIBELLE;
-        let abbr = '';
+        let markerAbbr = '';
 
         if (hpLevels && feature.properties.HP2 == '') {
           markerCustomColour = 'rgba(255, 255, 255, .5);';
-          markerStyle = 'markerStyle1';
-          insideMarkerStyle = `
+          markerStyle = 'marker-style-big';
+          markerStyleCenter = `
             width: 22px;
             height: 22px;
-            display: block;
-            position: relative;
-            transform: rotate(45deg);
-            border-radius: 50%;
+            border: 1px solid #FFFFFF;
+            background-color: ${markerCustomColour}`;
+          x = 0;
+          y = -14;
+          markerAbbr = abbrev(feature.properties.LIBELLE);
+        }
+        /*if (feature.properties.LIBELLE == 'MULHOUSE') {
+          markerStyle = 'markerStyle1';
+          markerStyleCenter = `
+            width: 22px;
+            height: 22px;
             border: 1px solid #FFFFFF;
             margin: 2px;
-            padding: 1px 0 0 1px;
-            background-color: ${markerCustomColour};
-            color: rgba(0, 0, 0, .9);
-            font-weight: 900;
-            font-size: .8rem;`
+            padding: 0px 0 0 0px;
+            background-color: ${markerCustomColour}`;
           x = 0;
           y = -14;
-          abbr = abbrev(feature.properties.LIBELLE);
-        }
-        if (feature.properties.LIBELLE == 'MULHOUSE') {
-          markerStyle = 'markerStyle1';
-          insideMarkerStyle = `
-            width: 22px;
-            height: 22px;
-            display: block;
-            position: relative;
-            transform: rotate(45deg);
-            border-radius: 50%;
-            border: 2px solid ${markerCustomColour};
-            margin: 2px;
-            background-color: ${markerCustomColour};
-            color: rgba(0, 0, 0, .9);
-            font-weight: 900;
-            font-size: .65rem;`
-          x = 0;
-          y = -14;
-          abbr = '<i class="tiny material-icons">school</i>';
-        }
-        if (feature.properties.LIBELLE == 'MICHEL SERVET') {
-          markerStyle = 'markerStyle1';
-          insideMarkerStyle = `
-            width: 22px;
-            height: 22px;
-            display: block;
-            position: relative;
-            transform: rotate(45deg);
-            border-radius: 50%;
-            border: 2px solid ${markerCustomColour};
-            margin: 2px;
-            background-color: ${markerCustomColour};
-            color: rgba(0, 0, 0, .9);
-            font-weight: 900;
-            font-size: .65rem;`
-          x = 0;
-          y = -14;
-          abbr = '<i class="tiny material-icons">hotel</i>';
-        }
-        return L.marker(latlng, {
+          markerAbbr = '<i class="tiny material-icons">school</i>';
+        }*/
+        let marker =  L.marker(latlng, {
           icon: L.divIcon({
-            className: markerStyle,
+            className: 'marker-style-base ' + markerStyle,
             //iconAnchor: [0, 24],
             //labelAnchor: [-6, 0],
             popupAnchor: [x, y],
             iconSize: null,
-            html: '<span style="' + insideMarkerStyle + '" />' + abbr + '</span>'
+            html: '<span class="marker-style-center" style="' + markerStyleCenter + '" /><p class="marker-style-text">' + markerAbbr + '</p></span>'
           }),
           rotation: -45,
           draggable: true,
@@ -164,11 +120,15 @@ fetchRequest(url)
             direction: 'top',
             sticky: true
           });
+        console.log(marker._icon);
+        //marker.options.icon.options.className = "marker-style-big my-class";
+        //marker._icon.classList.add("className");
+        return marker;
       },
       onEachFeature: onEachFeature
     });
 
-    map.fitBounds(markersLayer.getBounds(), {padding: [50, 50]});
+    //map.fitBounds(markersLayer.getBounds(), {padding: [50, 50]});
 
     _log('load datas done');
   })
@@ -215,11 +175,11 @@ function setPopupContent(feature, position) {
 // Show/Hide layers with zoom level
 map.on('zoomend', function () {
   if (hpLevels) {
-    if (map.getZoom() < zoomLevel) {
+    if (map.getZoom() < hpLevelsZoom) {
       map.removeLayer(markerGroupHp3);
       map.addLayer(markerGroupHp1);
     }
-    if (map.getZoom() > zoomLevel) {
+    if (map.getZoom() > hpLevelsZoom) {
       map.removeLayer(markerGroupHp1);
       map.addLayer(markerGroupHp3);
     }

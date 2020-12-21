@@ -24,60 +24,52 @@ nav {
   height: 80px;
   line-height: 80px;
 }
-.markerStyle1 {
+
+/* ---- Marker ---- */
+.marker-style-base {
+  position: absolute;
+  border-radius: 50% 50% 50% 0;
+  -webkit-box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
+  -moz-box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
+  box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
+}
+.marker-style-big {
   width: 26px;
   height: 26px;
   margin-top: -32px;
   margin-left: -14px;
-  position: absolute;
   background-color: rgb(202, 20, 140);
-  border-radius: 50% 50% 50% 0;
-  -webkit-box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
-  -moz-box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
-  box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
 }
-/*.markerStyle1:after {
-  content: '';
-  width: 16px;
-  height: 16px;
-  margin: 5px 0 0 5px;
-  background: rgba(255, 255, 255, .5);
-  position: absolute;
-  border-radius: 50%;
-  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
-  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
-  box-shadow: 0 0 10px rgba(0, 0, 0, .5);
-  -moz-box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
-  -webkit-box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
-  box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
-}*/
-.markerStyle3 {
+.marker-style-medium {
   width: 22px;
   height: 22px;
   margin-top: -28px;
   margin-left: -10px;
-  position: absolute;
   background-color: rgb(202, 20, 140);
-  border-radius: 50% 50% 50% 0;
-  -webkit-box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
-  -moz-box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
-  box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
 }
-/*.markerStyle3:after {
-  content: '';
-  width: 12px;
-  height: 12px;
-  margin: 5px 0 0 5px;
-  background: rgba(255, 255, 255, .8);
-  position: absolute;
+.marker-style-small {
+}
+.marker-style-center {
+  display: block;
+  position: relative;
+  transform: rotate(45deg);
   border-radius: 50%;
-  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
-  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
-  box-shadow: 0 0 10px rgba(0, 0, 0, .5);
-  -moz-box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
-  -webkit-box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
-  box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
-}*/
+  margin: 2px;
+}
+.marker-style-text {
+  position: relative;
+  margin: 0 0 0 -1px;
+  color: rgba(0, 0, 0, .9);
+  font-weight: 900;
+  font-size: .85rem;
+  text-align: center;
+}
+.marker-style-text i.tiny {
+  font-size: 1.55rem !important;
+  margin: -2.8px !important;
+}
+
+/* ---- Popup ---- */
 .leaflet-popup {
   opacity: .85 !important;
 }
@@ -103,6 +95,8 @@ nav {
   font-size: .8rem;
   font-weight: bold;
 }
+
+/* ---- Tooltip ---- */
 /*.leaflet-tooltip {
     margin-top: -24px;
     background-color: transparent;
@@ -120,8 +114,3 @@ nav {
 .leaflet-tooltip-top::before {
     display: none;
 }*/
-
-i.tiny {
-  font-size: 1.55rem !important;
-  margin: -2.8px !important;
-}
