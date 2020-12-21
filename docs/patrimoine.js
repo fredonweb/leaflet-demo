@@ -1,5 +1,5 @@
 // Gestion HP1 / HP3
-// http://plnkr.co/edit/cHPSLKDbltxr9jFZotOD?p=preview&preview
+// OVERLAYS http://plnkr.co/edit/cHPSLKDbltxr9jFZotOD?p=preview&preview
 // https://stackoverflow.com/questions/32449111/set-different-l-divicon-style-depending-on-geojson-properties
 
 // Global variables
@@ -9,19 +9,20 @@ const hpLevels = true;
 const hpLevelsZoom = 17;
 const markerGroupHp1 = new L.layerGroup();
 const markerGroupHp3 = new L.LayerGroup();
+const overlays = {};
 const url = 'https://fredonweb.github.io/leaflet-demo/patrimoine.geojson';
 //const url = 'http://srvssoikos/JSON/patrimoine.json'; //EMH srvssoikos
 
 // Set map, layers and markers
 const map = L.map('map', {
   zoomSnap: 0.25,
-  zoomDelta: 0.25,
+  zoomDelta: 0.5,
   minZoom: 11,
   maxZoom: 19,
   /* Del after update markers coords */
-  center: [45.755377, 4.892275],
+  center: [45.775377, 4.892275],
   zoom: 14
-  /* */
+  /* ------------------------------- */
 });
 const tile = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   minZoom: 1,
@@ -47,14 +48,27 @@ searchControl.on('search:locationfound', function(e) {
     map.setView(e.layer.getLatLng());
 });
 
+// Load map
 tile.addTo(map);
-map.addControl( searchControl );
+map.addControl(searchControl);
 
-// Set hp levels view
+// Set hpLevels view
 if (!hpLevels) map.addLayer(markerGroupHp3);
 
-//
-// Resquest patrimoine.geojson
+function getColor(colorPalett, feature) {
+  if (colorPalett == 'noColor') {
+    var color = 'rgba(255, 255, 255, .5)';
+  } else {
+    color = 'rgba(255, 255, 255, .9)';
+    if (feature.properties.NB_UG > 1) color = 'rgba(255, 255, 255, .6)';
+    if (feature.properties.NB_UG > 5) color = 'rgba(255, 255, 255, .3)';
+    if (feature.properties.NB_UG > 9) color = 'rgba(255, 255, 255, 0)';
+    if (feature.properties.NB_UG > 19) color = 'rgba(132, 13, 90, 1)';
+  }
+  return color;
+}
+
+// Request patrimoine.geojson
 fetchRequest(url)
   .then(data => {
     _log('fetchRequest done,');
@@ -63,55 +77,31 @@ fetchRequest(url)
 
     const markersLayer = new L.geoJSON(data.features, {
       pointToLayer: function (feature, latlng) {
-        let markerCustomColour = 'rgba(255, 255, 255, .9)';
-        if (feature.properties.NB_UG > 1) markerCustomColour = 'rgba(255, 255, 255, .6)';
-        if (feature.properties.NB_UG > 5) markerCustomColour = 'rgba(255, 255, 255, .3)';
-        if (feature.properties.NB_UG > 9) markerCustomColour = 'rgba(255, 255, 255, 0)';
-        if (feature.properties.NB_UG > 19) markerCustomColour = 'rgba(132, 13, 90, 1)';
+        let markerCustomColor = getColor('palett1', feature);
         let markerStyle = 'marker-style-medium';
-        let markerStyleCenter = `
-          width: 18px;
-          height: 18px;
-          border: 1px solid #FFFFFF;
-          background-color: ${markerCustomColour}`;
+        let markerStyleCenter = 'marker-style-center-medium';
+        let markerStyleColor =  `background-color: ${markerCustomColor}`;
         let x = 2;
         let y = -14;
         let tooltipText = feature.properties.LIBELLE;
-        let markerAbbr = '';
+        let markerTextAbbr = '';
 
         if (hpLevels && feature.properties.HP2 == '') {
-          markerCustomColour = 'rgba(255, 255, 255, .5);';
+          markerCustomColor = getColor('noColor');
           markerStyle = 'marker-style-big';
-          markerStyleCenter = `
-            width: 22px;
-            height: 22px;
-            border: 1px solid #FFFFFF;
-            background-color: ${markerCustomColour}`;
+          markerStyleCenter = 'marker-style-center-big';
+          markerStyleColor =  `background-color: ${markerCustomColor}`;
           x = 0;
           y = -14;
-          markerAbbr = abbrev(feature.properties.LIBELLE);
+          markerTextAbbr = abbrev(feature.properties.LIBELLE);
         }
-        /*if (feature.properties.LIBELLE == 'MULHOUSE') {
-          markerStyle = 'markerStyle1';
-          markerStyleCenter = `
-            width: 22px;
-            height: 22px;
-            border: 1px solid #FFFFFF;
-            margin: 2px;
-            padding: 0px 0 0 0px;
-            background-color: ${markerCustomColour}`;
-          x = 0;
-          y = -14;
-          markerAbbr = '<i class="tiny material-icons">school</i>';
-        }*/
+
         let marker =  L.marker(latlng, {
           icon: L.divIcon({
             className: 'marker-style-base ' + markerStyle,
-            //iconAnchor: [0, 24],
-            //labelAnchor: [-6, 0],
             popupAnchor: [x, y],
             iconSize: null,
-            html: '<span class="marker-style-center" style="' + markerStyleCenter + '" /><p class="marker-style-text">' + markerAbbr + '</p></span>'
+            html: '<span class="' + markerStyleCenter + '" style="' + markerStyleColor + '" /><p class="marker-style-text">' + markerTextAbbr + '</p></span>'
           }),
           rotation: -45,
           draggable: true,
@@ -120,14 +110,10 @@ fetchRequest(url)
             direction: 'top',
             sticky: true
           });
-        console.log(marker._icon);
-        //marker.options.icon.options.className = "marker-style-big my-class";
-        //marker._icon.classList.add("className");
         return marker;
       },
       onEachFeature: onEachFeature
     });
-
     //map.fitBounds(markersLayer.getBounds(), {padding: [50, 50]});
 
     _log('load datas done');
@@ -142,7 +128,6 @@ function onEachFeature (feature, layer) {
 
   if (hpLevels && feature.properties.HP2 == '') {
     markerGroupHp1.addLayer(layer);
-    //layer.style.backgroundColor = 'red';
     layer.bindPopup(popupContent, {className: 'une-Classe'});
   } else {
     if (feature.properties.HP2 !== '') markerGroupHp3.addLayer(layer);
@@ -235,6 +220,35 @@ function abbrev(value) {
   } else {
     x = value.substr(0, 2);
   }
-  console.log(x);
   return x;
 }
+
+
+/*if (feature.properties.LIBELLE == 'MULHOUSE') {
+  markerStyle = 'markerStyle1';
+  markerStyleCenter = `
+    width: 22px;
+    height: 22px;
+    border: 1px solid #FFFFFF;
+    margin: 2px;
+    padding: 0px 0 0 0px;
+    background-color: ${markerCustomColor}`;
+  x = 0;
+  y = -14;
+  markerTextAbbr = '<i class="tiny material-icons">school</i>';
+}*/
+
+/*markerStyleCenter = `
+  width: 22px;
+  height: 22px;
+  border: 1px solid #FFFFFF;
+  background-color: ${markerCustomColor}`;*/
+
+/*if (!overlays.hasOwnProperty(feature.properties.LIBELLE)) {
+  overlays[feature.properties.LIBELLE] = new L.LayerGroup().addTo(map);
+}
+if (hpLevels && feature.properties.HP2 == '') {
+  marker.addTo(overlays[feature.properties.LIBELLE]);
+}
+new L.Control.Layers(null, overlays, { collapsed: false }).addTo(map);
+*/

@@ -49,7 +49,20 @@ nav {
 }
 .marker-style-small {
 }
-.marker-style-center {
+.marker-style-center-big {
+  width: 22px;
+  height: 22px;
+  border: 1px solid #FFFFFF;
+  display: block;
+  position: relative;
+  transform: rotate(45deg);
+  border-radius: 50%;
+  margin: 2px;
+}
+.marker-style-center-medium {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #FFFFFF;
   display: block;
   position: relative;
   transform: rotate(45deg);
