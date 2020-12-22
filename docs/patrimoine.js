@@ -131,7 +131,51 @@ function onEachFeature (feature, layer) {
   } else {
     if (feature.properties.HP2 !== '') markerGroupHp3.addLayer(layer);
     popupContent = setPopupContent(feature, position);
-    layer.bindPopup(popupContent);
+    layer.bindPopup(popupContent).on('popupopen', function (e) {
+      if (feature.properties.PLAI === '') feature.properties.PLAI = 0;
+      if (feature.properties.PLUS === '') feature.properties.PLUS = 0;
+      if (feature.properties.PLS === '') feature.properties.PLS = 0;
+      //console.log(feature.properties.PLS);
+      var partPLAI = feature.properties.PLAI/feature.properties.NB_UG*100;
+      var partPLUS = feature.properties.PLUS/feature.properties.NB_UG*100;
+      var partPLS = feature.properties.PLS/feature.properties.NB_UG*100;
+      CanvasJS.addColorSet('customColorSet',
+        [
+          '#FAA586',
+          '#4661EE',
+          '#EC5657',
+          '#1BCDD1',
+          '8FAABB',
+          '#B08BEB',
+          '#3EA0DD',
+          '#F5A52A',
+          '#23BFAA',
+
+          '#EB8CC6'
+        ]);
+      var chart = new CanvasJS.Chart("chartContainer", {
+      	animationEnabled: true,
+        animationDuration: 500,
+        colorSet:  'customColorSet',
+        //width:100,
+        //height: 100,
+      	data: [{
+      		type: "doughnut",
+      		//startAngle: 60,
+      		//innerRadius: 60,
+      		indexLabelFontSize: 12,
+          includeZero: false,
+      		indexLabel: "{label} - #percent%",
+      		//toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+      		dataPoints: [
+      			{ y: partPLAI, label: feature.properties.PLAI + ' PLAI' },
+      			{ y: partPLUS, label: feature.properties.PLUS + ' PLUS' },
+      			{ y: partPLS, label: feature.properties.PLS + ' PLS' }
+      		]
+      	}]
+      });
+      chart.render();
+    });
 
     // Update popupContent after dragend marker
     layer.on('dragend', function(event){
@@ -144,7 +188,8 @@ function onEachFeature (feature, layer) {
 }
 
 function setPopupContent(feature, position) {
-  let popupContent = '<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>';
+  let popupContent = '<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>' +
+                     '<div id="chartContainer" style="height: 100px; max-width: 200px; margin: 0px auto;"></div><br /><br /><br /><br />';
   /*let popupContent = '<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.LIBELLE + '</p>' +
                      '<p class="popup-style popup-style-subtitle">' + feature.properties.NB_UG + ' logements</p>' +
                      '<p class="popup-style popup-style-adresse">----</p>' +
