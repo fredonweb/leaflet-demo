@@ -161,7 +161,7 @@ function onEachFeature (feature, layer) {
 }
 function setChartGranulo(feature){
   var dps = [];
-  var name = ['PLAI', 'PLUS', 'PLS'];
+  var name = ['Studio', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6 +'];
   var type = [];
   type.push(Number(feature.properties.Studio));
   type.push(Number(feature.properties.T1));
@@ -169,7 +169,7 @@ function setChartGranulo(feature){
   type.push(Number(feature.properties.T3));
   type.push(Number(feature.properties.T4));
   type.push(Number(feature.properties.T5));
-  type.push(Number(feature.properties.T6&+);
+  //type.push(Number(feature.properties.T6\&+));
   console.log(type);
   for (var i = 0; i < type.length; i++) {
     if (type[i] > 0) {
@@ -181,18 +181,19 @@ function setChartGranulo(feature){
     animationEnabled: true,
     animationDuration: 250,
     colorSet: 'customColorSet1',
-    axisY: {
-      title: "Nb logs"
+    title:{
+      text: 'Granulométrie',
+      fontSize: 14
 	  },
+    /*axisY: {
+      title: "Nb logs"
+	  },*/
     showInLegend: true,
 		legendMarkerColor: "grey",
 		legendText: "Typologie",
     data: [{
       type: "column",
       indexLabelFontSize: 12,
-      //includeZero: false,
-      //indexLabel: '{name}',
-      //toolTipContent: '<b>{name}</b>',
       dataPoints: dps
     }]
   });
@@ -217,6 +218,10 @@ function setChartType(feature){
     animationEnabled: true,
     animationDuration: 250,
     colorSet: 'customColorSet2',
+    title:{
+      text: 'Conventionnement',
+      fontSize: 14
+	  },
     data: [{
       type: "doughnut",
       //startAngle: 60,
@@ -234,7 +239,7 @@ function setChartType(feature){
 function setPopupContent(feature, position) {
   let popupContent = //'<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>' +
                      '<p><b>Résidence ' + feature.properties.LIBELLE + '</b></p>' +
-                     '<div id="chartContainer1" style="height: 100px; max-width: 200px; margin: 0px auto;"></div>' +
+                     '<div id="chartContainer1" style="height: 100px; max-width: 200px; margin: 0px auto;"></div><br />' +
                      '<div id="chartContainer2" style="height: 100px; max-width: 200px; margin: 0px auto;"></div>';
   /*let popupContent = '<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.LIBELLE + '</p>' +
                      '<p class="popup-style popup-style-subtitle">' + feature.properties.NB_UG + ' logements</p>' +
