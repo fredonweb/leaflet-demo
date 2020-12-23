@@ -145,7 +145,8 @@ function onEachFeature (feature, layer) {
     layer.bindPopup(popupContent, {className: 'une-Classe'});
     layer.on({
       click: function() {
-        setDoughnut(feature);
+        setChartGranulo(feature);
+        setChartType(feature);
       }
     });
 
@@ -158,8 +159,47 @@ function onEachFeature (feature, layer) {
     });
   }
 }
+function setChartGranulo(feature){
+  var dps = [];
+  var name = ['PLAI', 'PLUS', 'PLS'];
+  var type = [];
+  type.push(Number(feature.properties.Studio));
+  type.push(Number(feature.properties.T1));
+  type.push(Number(feature.properties.T2));
+  type.push(Number(feature.properties.T3));
+  type.push(Number(feature.properties.T4));
+  type.push(Number(feature.properties.T5));
+  type.push(Number(feature.properties.T6&+);
+  console.log(type);
+  for (var i = 0; i < type.length; i++) {
+    if (type[i] > 0) {
+      dps.push({y: type[i], label: name[i]});
+    }
+  }
 
-function setDoughnut(feature){
+  let chart = new CanvasJS.Chart("chartContainer1", {
+    animationEnabled: true,
+    animationDuration: 250,
+    colorSet: 'customColorSet1',
+    axisY: {
+      title: "Nb logs"
+	  },
+    showInLegend: true,
+		legendMarkerColor: "grey",
+		legendText: "Typologie",
+    data: [{
+      type: "column",
+      indexLabelFontSize: 12,
+      //includeZero: false,
+      //indexLabel: '{name}',
+      //toolTipContent: '<b>{name}</b>',
+      dataPoints: dps
+    }]
+  });
+  chart.render();
+}
+
+function setChartType(feature){
   var dps = [];
   var name = ['PLAI', 'PLUS', 'PLS'];
   var type = [];
@@ -173,10 +213,10 @@ function setDoughnut(feature){
     }
   }
 
-  let chart = new CanvasJS.Chart("chartContainer", {
+  let chart = new CanvasJS.Chart("chartContainer2", {
     animationEnabled: true,
     animationDuration: 250,
-    colorSet: 'customColorSet1',
+    colorSet: 'customColorSet2',
     data: [{
       type: "doughnut",
       //startAngle: 60,
@@ -194,7 +234,8 @@ function setDoughnut(feature){
 function setPopupContent(feature, position) {
   let popupContent = //'<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>' +
                      '<p><b>Résidence ' + feature.properties.LIBELLE + '</b></p>' +
-                     '<div id="chartContainer" style="height: 100px; max-width: 200px; margin: 0px auto;"></div>';
+                     '<div id="chartContainer1" style="height: 100px; max-width: 200px; margin: 0px auto;"></div>' +
+                     '<div id="chartContainer2" style="height: 100px; max-width: 200px; margin: 0px auto;"></div>';
   /*let popupContent = '<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.LIBELLE + '</p>' +
                      '<p class="popup-style popup-style-subtitle">' + feature.properties.NB_UG + ' logements</p>' +
                      '<p class="popup-style popup-style-adresse">----</p>' +
