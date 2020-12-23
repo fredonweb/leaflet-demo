@@ -5,7 +5,7 @@
 // Global variables
 const debug = true;
 const ouBatir = '[OuBatir]: ';
-const hpLevels = false;
+const hpLevels = true;
 const hpLevelsZoom = 17;
 const markerGroupHp1 = new L.layerGroup();
 const markerGroupHp3 = new L.LayerGroup();
@@ -145,8 +145,8 @@ function onEachFeature (feature, layer) {
     layer.bindPopup(popupContent, {className: 'une-Classe'});
     layer.on({
       click: function() {
-        setChartGranulo(feature);
-        setChartType(feature);
+        setChartColumn(feature);
+        setChartDoughnut(feature);
       }
     });
 
@@ -159,88 +159,12 @@ function onEachFeature (feature, layer) {
     });
   }
 }
-function setChartGranulo(feature){
-  var dps = [];
-  var name = ['Studio', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6 +'];
-  var type = [];
-  type.push(Number(feature.properties.Studio));
-  type.push(Number(feature.properties.T1));
-  type.push(Number(feature.properties.T2));
-  type.push(Number(feature.properties.T3));
-  type.push(Number(feature.properties.T4));
-  type.push(Number(feature.properties.T5));
-  //type.push(Number(feature.properties.T6\&+));
-  console.log(type);
-  for (var i = 0; i < type.length; i++) {
-    if (type[i] > 0) {
-      dps.push({y: type[i], label: name[i]});
-    }
-  }
-
-  let chart = new CanvasJS.Chart("chartContainer1", {
-    animationEnabled: true,
-    animationDuration: 250,
-    colorSet: 'customColorSet1',
-    title:{
-      text: 'Granulométrie',
-      fontSize: 14
-	  },
-    /*axisY: {
-      title: "Nb logs"
-	  },*/
-    showInLegend: true,
-		legendMarkerColor: "grey",
-		legendText: "Typologie",
-    data: [{
-      type: "column",
-      indexLabelFontSize: 12,
-      dataPoints: dps
-    }]
-  });
-  chart.render();
-}
-
-function setChartType(feature){
-  var dps = [];
-  var name = ['PLAI', 'PLUS', 'PLS'];
-  var type = [];
-  type.push(feature.properties.PLAI);
-  type.push(feature.properties.PLUS);
-  type.push(feature.properties.PLS);
-  for (var i = 0; i < type.length; i++) {
-    if (type[i] > 0) {
-      let val = type[i]/feature.properties.NB_UG*100;
-      dps.push({y: val, name: type[i] + ' ' + name[i]});
-    }
-  }
-
-  let chart = new CanvasJS.Chart("chartContainer2", {
-    animationEnabled: true,
-    animationDuration: 250,
-    colorSet: 'customColorSet2',
-    title:{
-      text: 'Conventionnement',
-      fontSize: 14
-	  },
-    data: [{
-      type: "doughnut",
-      //startAngle: 60,
-      //innerRadius: 60,
-      indexLabelFontSize: 12,
-      includeZero: false,
-      indexLabel: '{name} (#percent%)',
-      toolTipContent: '<b>{name}</b> - #percent%',
-      dataPoints: dps
-    }]
-  });
-  chart.render();
-}
 
 function setPopupContent(feature, position) {
   let popupContent = //'<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>' +
                      '<p><b>Résidence ' + feature.properties.LIBELLE + '</b></p>' +
-                     '<div id="chartContainer1" style="height: 100px; max-width: 200px; margin: 0px auto;"></div><br />' +
-                     '<div id="chartContainer2" style="height: 100px; max-width: 200px; margin: 0px auto;"></div>';
+                     '<div id="chartContainer1" style="height: 150px; max-width: 200px; margin: 0px auto;"></div><br />' +
+                     '<div id="chartContainer2" style="height: 150px; max-width: 200px; margin: 0px auto;"></div><br />';
   /*let popupContent = '<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.LIBELLE + '</p>' +
                      '<p class="popup-style popup-style-subtitle">' + feature.properties.NB_UG + ' logements</p>' +
                      '<p class="popup-style popup-style-adresse">----</p>' +
@@ -250,6 +174,78 @@ function setPopupContent(feature, position) {
                      '<p class="popup-style popup-style-adresse">----</p>' +
                      '<p class="popup-style popup-style-HP">markerGroupHp1: ' + feature.properties.markerGroupHp1 + ' / HP2: ' + feature.properties.HP2 + ' / markerGroupHp3: ' + feature.properties.markerGroupHp3 + '</p>';*/
   return popupContent
+}
+
+// Set charts
+function getValuesForChart(feature, name) {
+  let JSON_Obj = feature.properties;
+  let dps = [];
+  for (let key in JSON_Obj) {
+    for (let j = 0; j < name.length; j++) {
+      if (key == name[j] && JSON_Obj[key] > 0 ) {
+        dps.push({y: Number(JSON_Obj[key]), label: name[j]});
+      }
+    }
+  }
+  return dps;
+}
+
+function setChartColumn(feature) {
+  let name = ['Studio', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6&+'];
+  let dps = getValuesForChart(feature, name);
+  if (dps.length === 0) {
+    document.getElementById('chartContainer1').style.height = "1px";
+    return;
+  }
+
+  let chart = new CanvasJS.Chart('chartContainer1', {
+    animationEnabled: true,
+    animationDuration: 250,
+    colorSet: 'customColorSet1',
+    title:{
+      text: 'Granulométrie',
+      fontFamily: 'Lato',
+      fontWeight: 'bold',
+      fontSize: 14
+	  },
+    data: [{
+      type: 'column',
+      indexLabel: '{y}',
+      indexLabelPlacement: 'inside',
+      indexLabelOrientation: 'horizontal',
+      indexLabelFontSize: 12,
+      dataPoints: dps
+    }]
+  });
+  chart.render();
+}
+
+function setChartDoughnut(feature){
+  let name = ['PLAI', 'PLUS', 'PLS'];
+  let dps = getValuesForChart(feature, name);
+  if (dps.length === 0) {
+    document.getElementById('chartContainer2').style.height = "1px";
+    return;
+  }
+  let chart = new CanvasJS.Chart('chartContainer2', {
+    animationEnabled: true,
+    animationDuration: 250,
+    colorSet: 'customColorSet2',
+    title:{
+      text: 'Conventionnement',
+      fontFamily: 'Lato',
+      fontWeight: 'bold',
+      fontSize: 14
+	  },
+    data: [{
+      type: 'doughnut',
+      indexLabelFontSize: 12,
+      indexLabel: '{y} {label} (#percent%)',
+      toolTipContent: '<b>{y} {label}</b> - #percent%',
+      dataPoints: dps
+    }]
+  });
+  chart.render();
 }
 
 // Show/Hide layers with zoom level
