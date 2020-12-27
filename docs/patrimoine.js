@@ -5,7 +5,7 @@
 // Global variables
 const debug = true;
 const ouBatir = '[OuBatir]: ';
-const hpLevels = true;
+const hpLevels = false;
 const hpLevelsZoom = 17;
 const markerGroupHp1 = new L.layerGroup();
 const markerGroupHp3 = new L.LayerGroup();
