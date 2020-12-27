@@ -164,7 +164,8 @@ function setPopupContent(feature, position) {
   let popupContent = //'<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>' +
                      '<p><b>Résidence ' + feature.properties.LIBELLE + '</b></p>' +
                      '<div id="chartContainer1" style="height: 150px; max-width: 200px; margin: 0px auto;"></div><br />' +
-                     '<div id="chartContainer2" style="height: 150px; max-width: 200px; margin: 0px auto;"></div><br />';
+                     '<div id="chartContainer2" style="height: 150px; max-width: 200px; margin: 0px auto;"></div><br />' +
+                     '<p>Classe énergétique : <b>' + feature.properties.Classe_Energetique + '</b></p>'
   /*let popupContent = '<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.LIBELLE + '</p>' +
                      '<p class="popup-style popup-style-subtitle">' + feature.properties.NB_UG + ' logements</p>' +
                      '<p class="popup-style popup-style-adresse">----</p>' +
