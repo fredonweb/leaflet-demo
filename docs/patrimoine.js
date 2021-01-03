@@ -54,19 +54,6 @@ map.addControl(searchControl);
 // Set hpLevels view
 if (!hpLevels) map.addLayer(markerGroupHp3);
 
-function getColor(colorPalett, feature) {
-  if (colorPalett == 'noColor') {
-    var color = 'rgba(255, 255, 255, .5)';
-  } else {
-    color = 'rgba(255, 255, 255, .9)';
-    if (feature.properties.NB_UG > 1) color = 'rgba(255, 255, 255, .6)';
-    if (feature.properties.NB_UG > 5) color = 'rgba(255, 255, 255, .3)';
-    if (feature.properties.NB_UG > 9) color = 'rgba(255, 255, 255, 0)';
-    if (feature.properties.NB_UG > 19) color = 'rgba(132, 13, 90, 1)';
-  }
-  return color;
-}
-
 // Request patrimoine.geojson
 fetchRequest(url)
   .then(data => {
@@ -121,6 +108,7 @@ fetchRequest(url)
     console.log(ouBatir + 'fetchRequest(), Error :', err);
   });
 
+// Set colors and paletts colors
 CanvasJS.addColorSet('customColorSet1',
   [
     '#8FAABB', '#3EA0DD', '#4661EE','#1BCDD1',
@@ -131,6 +119,26 @@ CanvasJS.addColorSet('customColorSet2',
     '#FAA586','#EC5657','#F5A52A','#EB8CC6'
   ]
 );
+
+function getColor(colorClass, feature) {
+  if (colorClass == 'noColor') {
+    var color = 'rgba(255, 255, 255, .5)';
+  } else if (colorClass === 'energyClass') {
+      switch (feature.properties.Classe_Energetique) {
+      case 'A', 'B': color = '#339933'; break;
+      case 'C', 'D': color = '#F5A52A'; break;
+      case 'E', 'F', 'G': color = '#EC5657'; break;
+      default: color = 'rgba(255, 255, 255, .6)';
+    }
+  } else {
+    color = 'rgba(255, 255, 255, .9)';
+    if (feature.properties.NB_UG > 1) color = 'rgba(255, 255, 255, .6)';
+    if (feature.properties.NB_UG > 5) color = 'rgba(255, 255, 255, .3)';
+    if (feature.properties.NB_UG > 9) color = 'rgba(255, 255, 255, 0)';
+    if (feature.properties.NB_UG > 19) color = 'rgba(132, 13, 90, 1)';
+  }
+  return color;
+}
 
 function onEachFeature (feature, layer) {
   let position = layer.getLatLng();
@@ -165,7 +173,7 @@ function setPopupContent(feature, position) {
                      '<p><b>Résidence ' + feature.properties.LIBELLE + '</b></p>' +
                      '<div id="chartContainer1" style="height: 150px; max-width: 200px; margin: 0px auto;"></div><br />' +
                      '<div id="chartContainer2" style="height: 150px; max-width: 200px; margin: 0px auto;"></div><br />' +
-                     '<p>Classe énergétique : <b>' + feature.properties.Classe_Energetique + '</b></p>'
+                     '<div style="font-weight: bold;font-size: 1rem;"><div style="margin: auto; width: 80%"><span style="vertical-align: middle;">Classe énergétique </span><span style="background-color: #F5A52A;display: inline-block; border-radius: 50%; width: 24px; height: 24px; margin-left: 4px;"><b style="padding: 7px; vertical-align: middle;">' + feature.properties.Classe_Energetique + '</b></span></div>'
   /*let popupContent = '<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.LIBELLE + '</p>' +
                      '<p class="popup-style popup-style-subtitle">' + feature.properties.NB_UG + ' logements</p>' +
                      '<p class="popup-style popup-style-adresse">----</p>' +
