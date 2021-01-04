@@ -150,30 +150,65 @@ function onEachFeature (feature, layer) {
   } else {
     if (feature.properties.HP2 !== '') markerGroupHp3.addLayer(layer);
     //popupContent = setPopupContent(feature, position);
-    layer.bindPopup(popupContent, {className: 'une-Classe'});
+    layer.bindPopup(popupContent);
     layer.on({
       click: function() {
-        setChartColumn(feature);
-        setChartDoughnut(feature);
+        /*if (layer._popup != undefined) {
+          _log('supp popup')
+          layer.unbindPopup();
+        }*/
+        loadChartColumn(feature);
+        loadChartDoughnut(feature);
+        if (feature.properties.Classe_Energetique !== undefined) loadEnergyClass(feature);
+
       }
     });
+    // EXEMPLE
+    /*layer.on('click', function (e) {
+        //destroy any old popups that might be attached
+        if (layer._popup != undefined) layer.unbindPopup();
+        var marker_url = feature.properties.url;
+
+        //display a placeholder popup
+        var pop = L.popup().setLatLng(this._latlng).setContent('Loading...').openOn(map);
+
+        //request data and make a new popup when it's done
+        $.ajax({
+            url: marker_url,
+            success: function (data) {
+                    //close placeholder popup
+                    layer.closePopup();
+
+                    //attach the real popup and open it
+                    layer.bindPopup(data);
+                });
+                layer.openPopup();
+            }
+    });*/
+    // FIN EXEMPLE
 
     // Update popupContent after dragend marker
-    layer.on('dragend', function(event){
+    /*layer.on('dragend', function(event){
       position = layer.getLatLng();
       layer.setLatLng(position);
       popupContent = setPopupContent(feature, position)
       layer.bindPopup(popupContent, {className: 'une-Autre-Classe'});
-    });
+    });*/
   }
 }
 
+//
+// Set Popup Content
+//
 function setPopupContent(feature, position) {
   let popupContent = //'<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>' +
                      '<p><b>Résidence ' + feature.properties.LIBELLE + '</b></p>' +
-                     '<div id="chartContainer1" style="height: 150px; max-width: 200px; margin: 0px auto;"></div><br />' +
-                     '<div id="chartContainer2" style="height: 150px; max-width: 200px; margin: 0px auto;"></div><br />' +
-                     '<div style="font-weight: bold;font-size: 1rem;"><div style="margin: auto; width: 80%"><span style="vertical-align: middle;">Classe énergétique </span><span style="background-color: #F5A52A;display: inline-block; border-radius: 50%; width: 24px; height: 24px; margin-left: 4px;"><b style="padding: 7px; vertical-align: middle;">' + feature.properties.Classe_Energetique + '</b></span></div>'
+                     '<div id="charts">' +
+                       '<div id="chartContainer1" style="height: 150px; max-width: 200px; margin: 0px auto;"></div><br />' +
+                       '<div id="chartContainer2" style="height: 150px; max-width: 200px; margin: 0px auto;"></div><br />' +
+                     '</div>' +
+                     '<div id="nrj" class="popupContent"></div>'
+
   /*let popupContent = '<p class="popup-style popup-style-title">Résidence<br />' + feature.properties.LIBELLE + '</p>' +
                      '<p class="popup-style popup-style-subtitle">' + feature.properties.NB_UG + ' logements</p>' +
                      '<p class="popup-style popup-style-adresse">----</p>' +
@@ -187,6 +222,10 @@ function setPopupContent(feature, position) {
 
 // Set charts
 function getValuesForChart(feature, name) {
+  _log('  getValuesForChart(feature, name)');
+  console.log(feature);
+  console.log(name);
+
   let JSON_Obj = feature.properties;
   let dps = [];
   for (let key in JSON_Obj) {
@@ -199,19 +238,21 @@ function getValuesForChart(feature, name) {
   return dps;
 }
 
-function setChartColumn(feature) {
+function loadChartColumn(feature) {
+  _log('loadChartColumn(feature)');
+  console.log(feature);
+
   let name = ['Studio', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6&+'];
   let dps = getValuesForChart(feature, name);
   if (dps.length === 0) {
     document.getElementById('chartContainer1').style.height = "1px";
     return;
   }
-
   let chart = new CanvasJS.Chart('chartContainer1', {
     animationEnabled: true,
     animationDuration: 250,
     colorSet: 'customColorSet1',
-    title:{
+    title: {
       text: 'Granulométrie',
       fontFamily: 'Lato',
       fontWeight: 'bold',
@@ -229,7 +270,10 @@ function setChartColumn(feature) {
   chart.render();
 }
 
-function setChartDoughnut(feature){
+function loadChartDoughnut(feature) {
+  _log('loadChartDoughnut(feature)');
+  console.log(feature);
+
   let name = ['PLAI', 'PLUS', 'PLS'];
   let dps = getValuesForChart(feature, name);
   if (dps.length === 0) {
@@ -240,7 +284,7 @@ function setChartDoughnut(feature){
     animationEnabled: true,
     animationDuration: 250,
     colorSet: 'customColorSet2',
-    title:{
+    title: {
       text: 'Conventionnement',
       fontFamily: 'Lato',
       fontWeight: 'bold',
@@ -256,6 +300,33 @@ function setChartDoughnut(feature){
   });
   chart.render();
 }
+
+function loadEnergyClass(feature) {
+  _log('loadEnergyClass(feature)');
+  let container = document.getElementById('nrj');
+  container.innerHTML = '';
+
+  let node = document.createElement('div');
+  node.className = "nrj-content";
+  container.appendChild(node);
+
+  let nodeChild1 = document.createElement('span');
+  nodeChild1.className = "nrj-title";
+  let textnode = document.createTextNode('Classe énergétique ');
+  nodeChild1.appendChild(textnode);
+  node.appendChild(nodeChild1);
+
+  let nodeChild2 = document.createElement('span');
+  nodeChild2.className = "nrj-indice";
+  node.appendChild(nodeChild2);
+
+  let nodeChild3 = document.createElement('b');
+  textnode = document.createTextNode(feature.properties.Classe_Energetique);
+  nodeChild3.appendChild(textnode);
+
+  nodeChild2.appendChild(nodeChild3);
+}
+
 
 // Show/Hide layers with zoom level
 map.on('zoomend', function () {

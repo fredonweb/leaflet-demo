@@ -106,7 +106,26 @@ nav {
 .popup-style-HP {
   line-height: 0rem;
   font-size: .8rem;
+  font-weight: bold;}
+.popupContent {
+  font-size: 1rem;
   font-weight: bold;
+}
+.nrj-content {
+  margin: auto;
+  width: 90%;
+}
+.nrj-title {
+  vertical-align: middle;
+}
+.nrj-indice {
+  background-color: #F5A52A;
+  display: inline-block;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  margin-left: 4px;
+  padding-left: 7px;
 }
 
 /* ---- Tooltip ---- */
