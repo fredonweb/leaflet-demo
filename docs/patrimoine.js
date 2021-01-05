@@ -5,7 +5,7 @@
 // Global variables
 const debug = true;
 const ouBatir = '[OuBatir]: ';
-const hpLevels = false;
+const hpLevels = true;
 const hpLevelsZoom = 17;
 const markerGroupHp1 = new L.layerGroup();
 const markerGroupHp3 = new L.LayerGroup();
@@ -95,7 +95,7 @@ fetchRequest(url)
         }).bindTooltip(tooltipText,{
             direction: 'top',
             sticky: true
-          });
+        }).bindPopup('Zoomer pour afficher plus d\'informations');
         return marker;
       },
       onEachFeature: onEachFeature
@@ -146,46 +146,26 @@ function onEachFeature (feature, layer) {
 
   if (hpLevels && feature.properties.HP2 == '') {
     markerGroupHp1.addLayer(layer);
-    layer.bindPopup(popupContent, {className: 'une-Classe'});
+    //layer.bindPopup(popupContent, {className: 'une-Classe'});
   } else {
     if (feature.properties.HP2 !== '') markerGroupHp3.addLayer(layer);
-    //popupContent = setPopupContent(feature, position);
-    layer.bindPopup(popupContent);
     layer.on({
+      mouseover: function() {
+        _log('mouseover');
+        layer.bindPopup(popupContent, {closeButton: false});
+      },
+      mouseout: function() {
+        _log('mouseout');
+        layer.closePopup();
+      },
       click: function() {
-        /*if (layer._popup != undefined) {
-          _log('supp popup')
-          layer.unbindPopup();
-        }*/
+        _log('click !');
+        layer.closeTooltip();
         loadChartColumn(feature);
         loadChartDoughnut(feature);
         if (feature.properties.Classe_Energetique !== undefined) loadEnergyClass(feature);
-
       }
     });
-    // EXEMPLE
-    /*layer.on('click', function (e) {
-        //destroy any old popups that might be attached
-        if (layer._popup != undefined) layer.unbindPopup();
-        var marker_url = feature.properties.url;
-
-        //display a placeholder popup
-        var pop = L.popup().setLatLng(this._latlng).setContent('Loading...').openOn(map);
-
-        //request data and make a new popup when it's done
-        $.ajax({
-            url: marker_url,
-            success: function (data) {
-                    //close placeholder popup
-                    layer.closePopup();
-
-                    //attach the real popup and open it
-                    layer.bindPopup(data);
-                });
-                layer.openPopup();
-            }
-    });*/
-    // FIN EXEMPLE
 
     // Update popupContent after dragend marker
     /*layer.on('dragend', function(event){
@@ -202,7 +182,7 @@ function onEachFeature (feature, layer) {
 //
 function setPopupContent(feature, position) {
   let popupContent = //'<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\},"]/g,'')+'</pre>' +
-                     '<p><b>Résidence ' + feature.properties.LIBELLE + '</b></p>' +
+                     '<div class="popupContent"><b>Résidence ' + feature.properties.LIBELLE + '</b></div>' +
                      '<div id="charts">' +
                        '<div id="chartContainer1" style="height: 150px; max-width: 200px; margin: 0px auto;"></div><br />' +
                        '<div id="chartContainer2" style="height: 150px; max-width: 200px; margin: 0px auto;"></div><br />' +
